@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#b9772f">
+<title>Strikkeprosjekter</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#faf6f0; --card:#fff; --ink:#2b2118; --muted:#7a6a5a; --line:#e6dccd;
+  --honey:#b9772f; --honey-d:#8f5a1f; --honey-l:#f4e4cc; --ok:#4c7a4c; --warn:#a9442f;
+  --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(12px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+header.top h1{margin:0;font-size:20px;color:var(--honey-d)}
+main{max-width:640px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--honey);border-color:transparent}
+textarea{min-height:76px;resize:vertical}
+.row{display:flex;gap:10px}.row>*{flex:1;min-width:0}
+button{font:inherit;border:0;border-radius:12px;padding:12px 16px;background:var(--honey);color:#fff;font-weight:600;cursor:pointer}
+button.sec{background:var(--honey-l);color:var(--honey-d)}
+button.danger{background:#f6dcd6;color:var(--warn)}
+button.link{background:none;color:var(--honey-d);padding:6px 8px;font-weight:500}
+button.full{width:100%}
+button:disabled{opacity:.5}
+h2{font-size:17px;margin:4px 0 10px}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 0 6px}
+.muted{color:var(--muted);font-size:14px}
+.msg{padding:10px 12px;border-radius:10px;margin:10px 0;font-size:14px}
+.msg.err{background:#f6dcd6;color:var(--warn)}.msg.ok{background:#e3efe0;color:var(--ok)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:6}
+nav.tabs button{flex:1;background:none;color:var(--muted);border-radius:0;padding:10px 4px 8px;font-size:12px;font-weight:500}
+nav.tabs button .ic{display:block;font-size:20px;line-height:1.1}
+nav.tabs button.on{color:var(--honey-d)}
+.plist .item{display:flex;gap:12px;align-items:center;cursor:pointer}
+.thumb{width:64px;height:64px;border-radius:10px;background:var(--honey-l) center/cover;flex:none;display:grid;place-items:center;font-size:26px}
+.item .t{font-weight:600}.item .s{font-size:13px;color:var(--muted)}
+.badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--honey-l);color:var(--honey-d);margin-right:6px}
+.badge.ferdig{background:#e3efe0;color:var(--ok)}.badge.pause{background:#eee;color:#666}.badge.planlagt{background:#e8eaf6;color:#4a548f}
+.yarn{border:1px dashed var(--line);border-radius:12px;padding:10px;margin-bottom:10px;background:#fffdfa}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.photos .ph{position:relative;aspect-ratio:1;border-radius:10px;background:var(--honey-l) center/cover}
+.photos .ph button{position:absolute;top:4px;right:4px;padding:2px 8px;border-radius:99px;background:rgba(0,0,0,.6);color:#fff;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.kpi b{display:block;font-size:26px;color:var(--honey-d)}.kpi span{font-size:13px;color:var(--muted)}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:14px}
+.bar .n{width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .b{flex:1;background:var(--honey-l);border-radius:6px;height:16px;overflow:hidden}
+.bar .b i{display:block;height:100%;background:var(--honey)}
+.bar .v{width:52px;text-align:right;color:var(--muted)}
+.seg{display:flex;background:var(--honey-l);border-radius:12px;padding:3px;margin-bottom:12px}
+.seg button{flex:1;background:none;color:var(--honey-d);padding:8px}.seg button.on{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.center{min-height:100vh;display:grid;place-items:center;padding:20px}
+.center .card{width:100%;max-width:380px;padding:22px}
+.hide{display:none!important}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:20;display:grid;place-items:center}
+.lightbox img{max-width:100%;max-height:100%}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   KONFIGURASJON – lim inn verdiene fra Supabase
+   (Project Settings -> API: "Project URL" og "anon public" key)
+   ========================================================= */
+const SUPABASE_URL = "https://incyjccsgazurdzwdjlc.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluY3lqY2NzZ2F6dXJkendkamxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODUzMjcsImV4cCI6MjEwNzY2MTMyN30.8IXlcM8R3cG0a3zZ03GdYtEvYUXh8yn4_PczGkHtUZc";
+const BUCKET = "project-photos";
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $app = document.getElementById("app");
+const STATUSES = ["planlagt","pågår","pause","ferdig"];
+
+let me = null, profile = null;
+let projects = [];          // lastet fra DB
+let owners = {};            // id -> navn (kun admin ser andre)
+let thumbs = {};            // project_id -> signed url
+let tab = "list";           // list | edit | report | profile
+let editing = null;         // null = nytt, ellers prosjekt-objekt
+let formState = null;       // arbeidskopi i skjema
+let showAll = false;        // admin: vis alle
+let recovery = false;
+
+/* ---------- hjelpere ---------- */
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = v => { const n = parseFloat(String(v).replace(",", ".")); return isNaN(n) ? null : n; };
+const fmtDate = d => d ? new Date(d + "T00:00:00").toLocaleDateString("nb-NO", {day:"numeric", month:"short", year:"numeric"}) : "";
+const todayISO = () => new Date().toISOString().slice(0,10);
+function flash(msg, kind="ok"){
+  const el = document.getElementById("flash"); if(!el) return;
+  el.innerHTML = msg ? `<div class="msg ${kind}">${esc(msg)}</div>` : "";
+  if(msg && kind==="ok") setTimeout(()=>{ if(el) el.innerHTML=""; }, 3500);
+  if(msg) window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- oppstart ---------- */
+async function boot(){
+  const { data:{ session } } = await sb.auth.getSession();
+  me = session?.user ?? null;
+  sb.auth.onAuthStateChange(async (ev, s) => {
+    me = s?.user ?? null;
+    if(ev === "PASSWORD_RECOVERY"){ recovery = true; render(); return; }
+    if(ev === "SIGNED_IN" || ev === "SIGNED_OUT"){ await afterAuth(); }
+  });
+  await afterAuth();
+}
+async function afterAuth(){
+  if(!me){ profile=null; projects=[]; render(); return; }
+  const { data } = await sb.from("profiles").select("*").eq("id", me.id).maybeSingle();
+  profile = data || { id: me.id, display_name: me.email, is_admin: false };
+  await loadProjects();
+  render();
+}
+
+/* ---------- data ---------- */
+async function loadProjects(){
+  let q = sb.from("projects")
+    .select("*, project_yarns(*), project_photos(*)")
+    .order("created_at", { ascending:false });
+  if(!(profile?.is_admin && showAll)) q = q.eq("owner_id", me.id);
+  const { data, error } = await q;
+  if(error){ projects = []; console.error(error); return; }
+  projects = data || [];
+  projects.forEach(p => {
+    p.project_yarns.sort((a,b)=>a.sort_order-b.sort_order);
+    p.project_photos.sort((a,b)=>a.created_at.localeCompare(b.created_at));
+  });
+  if(profile?.is_admin && showAll){
+    const { data:pr } = await sb.from("profiles").select("id, display_name");
+    owners = Object.fromEntries((pr||[]).map(x=>[x.id, x.display_name]));
+  }
+  // miniatyrbilder (signerte URL-er)
+  thumbs = {};
+  const first = projects.filter(p=>p.project_photos.length).map(p=>({id:p.id, path:p.project_photos[0].storage_path}));
+  if(first.length){
+    const { data:urls } = await sb.storage.from(BUCKET).createSignedUrls(first.map(f=>f.path), 3600);
+    (urls||[]).forEach((u,i)=>{ if(u.signedUrl) thumbs[first[i].id] = u.signedUrl; });
+  }
+}
+async function signedUrls(paths){
+  if(!paths.length) return {};
+  const { data } = await sb.storage.from(BUCKET).createSignedUrls(paths, 3600);
+  const m = {}; (data||[]).forEach(u => { if(u.signedUrl) m[u.path] = u.signedUrl; });
+  return m;
+}
+
+/* ---------- bildekomprimering før opplasting ---------- */
+function shrink(file, max=1600, q=0.82){
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => { URL.revokeObjectURL(url); b ? res(b) : rej(new Error("Kunne ikke lese bildet")); }, "image/jpeg", q);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("Kunne ikke lese bildet")); };
+    img.src = url;
+  });
+}
+
+/* ---------- visning ---------- */
+function render(){
+  if(recovery) return renderRecovery();
+  if(!me) return renderAuth();
+  const titles = { list:"Mine prosjekter", edit: editing ? "Rediger prosjekt" : "Nytt prosjekt", report:"Rapport", profile:"Profil" };
+  $app.innerHTML = `
+    <header class="top"><h1>🧶 ${titles[tab]}</h1><span class="muted">${esc(profile?.display_name||"")}</span></header>
+    <main><div id="flash"></div><div id="view"></div></main>
+    <nav class="tabs">
+      <button data-t="list" class="${tab==="list"?"on":""}"><span class="ic">📋</span>Prosjekter</button>
+      <button data-t="new" class="${tab==="edit"?"on":""}"><span class="ic">➕</span>Nytt</button>
+      <button data-t="report" class="${tab==="report"?"on":""}"><span class="ic">📊</span>Rapport</button>
+      <button data-t="profile" class="${tab==="profile"?"on":""}"><span class="ic">👤</span>Profil</button>
+    </nav>`;
+  $app.querySelectorAll("nav.tabs button").forEach(b => b.onclick = () => {
+    const t = b.dataset.t;
+    if(t === "new"){ openEditor(null); } else { tab = t; render(); }
+  });
+  ({ list:viewList, edit:viewEdit, report:viewReport, profile:viewProfile })[tab]();
+}
+
+/* ---- innlogging ---- */
+function renderAuth(mode="login"){
+  $app.innerHTML = `<div class="center"><div class="card">
+    <h2 style="font-size:22px;color:var(--honey-d)">🧶 Strikkeprosjekter</h2>
+    <p class="muted">Logg inn for å registrere strikkeprosjektene dine.</p>
+    <div id="flash"></div>
+    <form id="f">
+      ${mode==="signup" ? `<label>Navn</label><input name="name" autocomplete="name" required>` : ""}
+      <label>E-post</label><input name="email" type="email" autocomplete="email" required>
+      ${mode!=="forgot" ? `<label>Passord</label><input name="pw" type="password" minlength="6" autocomplete="${mode==="signup"?"new-password":"current-password"}" required>` : ""}
+      <button class="full" style="margin-top:16px">${mode==="login"?"Logg inn":mode==="signup"?"Opprett bruker":"Send lenke for nytt passord"}</button>
+    </form>
+    <p style="text-align:center;margin:12px 0 0">
+      ${mode==="login" ? `<button class="link" id="a1">Opprett bruker</button><button class="link" id="a2">Glemt passord</button>` : `<button class="link" id="a1">Tilbake til innlogging</button>`}
+    </p></div></div>`;
+  document.getElementById("a1").onclick = () => renderAuth(mode==="login" ? "signup" : "login");
+  const a2 = document.getElementById("a2"); if(a2) a2.onclick = () => renderAuth("forgot");
+  document.getElementById("f").onsubmit = async e => {
+    e.preventDefault();
+    const f = new FormData(e.target), btn = e.target.querySelector("button"); btn.disabled = true;
+    const email = f.get("email").trim(), pw = f.get("pw");
+    let r;
+    if(mode==="login") r = await sb.auth.signInWithPassword({ email, password:pw });
+    else if(mode==="signup") r = await sb.auth.signUp({ email, password:pw, options:{ data:{ display_name:f.get("name").trim() }, emailRedirectTo: location.href.split("#")[0] } });
+    else r = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.href.split("#")[0] });
+    btn.disabled = false;
+    if(r.error) return flash(r.error.message, "err");
+    if(mode==="signup" && !r.data.session) flash("Sjekk e-posten din og bekreft adressen, deretter kan du logge inn.");
+    if(mode==="forgot") flash("Hvis adressen finnes, har vi sendt en lenke.");
+  };
+}
+function renderRecovery(){
+  $app.innerHTML = `<div class="center"><div class="card"><h2>Velg nytt passord</h2><div id="flash"></div>
+    <form id="f"><label>Nytt passord</label><input name="pw" type="password" minlength="6" required>
+    <button class="full" style="margin-top:16px">Lagre</button></form></div></div>`;
+  document.getElementById("f").onsubmit = async e => {
+    e.preventDefault();
+    const { error } = await sb.auth.updateUser({ password:new FormData(e.target).get("pw") });
+    if(error) return flash(error.message, "err");
+    recovery = false; await afterAuth();
+  };
+}
+
+/* ---- prosjektliste ---- */
+function viewList(){
+  const v = document.getElementById("view");
+  const admin = profile?.is_admin;
+  v.innerHTML = `
+    ${admin ? `<div class="seg"><button data-s="0" class="${!showAll?"on":""}">Mine</button><button data-s="1" class="${showAll?"on":""}">Alle (admin)</button></div>` : ""}
+    <div class="plist">${projects.length ? projects.map(p => `
+      <div class="card item" data-id="${p.id}">
+        <div class="thumb" style="${thumbs[p.id]?`background-image:url('${thumbs[p.id]}')`:""}">${thumbs[p.id]?"":"🧶"}</div>
+        <div style="min-width:0">
+          <div class="t">${esc(p.name)}</div>
+          <div class="s"><span class="badge ${p.status}">${esc(p.status)}</span>${p.gift_to?`🎁 ${esc(p.gift_to)}`:""}</div>
+          <div class="s">${[p.designer && "av "+esc(p.designer), p.start_date && fmtDate(p.start_date), showAll && owners[p.owner_id] && "👤 "+esc(owners[p.owner_id])].filter(Boolean).join(" · ")}</div>
+        </div>
+      </div>`).join("") : `<div class="card muted" style="text-align:center">Ingen prosjekter ennå.<br><br><button id="first">Registrer første prosjekt</button></div>`}
+    </div>`;
+  v.querySelectorAll(".seg button").forEach(b => b.onclick = async () => { showAll = b.dataset.s==="1"; await loadProjects(); render(); });
+  v.querySelectorAll(".item").forEach(el => el.onclick = () => openEditor(projects.find(p=>p.id===el.dataset.id)));
+  const f = document.getElementById("first"); if(f) f.onclick = () => openEditor(null);
+}
+
+/* ---- skjema (nytt / rediger) ---- */
+function openEditor(p){
+  editing = p;
+  formState = p ? {
+    ...p,
+    yarns: p.project_yarns.map(y => ({ ...y })),
+    photos: p.project_photos.map(x => ({ ...x })),
+    removedPhotos: [], newFiles: []
+  } : {
+    name:"", status:"pågår", start_date:todayISO(), end_date:"", gift_to:"", size:"", yarn_consumption:"",
+    gauge:"", needle_size:"", washing_instructions:"", designer:"", notes:"",
+    yarns:[{ quality:"", color:"", lot:"", grams_used:"" }], photos:[], removedPhotos:[], newFiles:[]
+  };
+  tab = "edit"; render();
+}
+async function viewEdit(){
+  const v = document.getElementById("view"), s = formState;
+  const readOnly = editing && editing.owner_id !== me.id;
+  const urls = await signedUrls(s.photos.map(x => x.storage_path));
+  const inp = (k, label, type="text", extra="") => `<label>${label}</label><input name="${k}" type="${type}" value="${esc(s[k])}" ${extra}>`;
+  v.innerHTML = `
+  <form id="pf">
+    <fieldset ${readOnly?"disabled":""} style="border:0;padding:0;margin:0">
+    <div class="card">
+      ${inp("name","Prosjekt *","text","required")}
+      <label>Status</label><select name="status">${STATUSES.map(x=>`<option ${s.status===x?"selected":""}>${x}</option>`).join("")}</select>
+      <div class="row"><div>${inp("start_date","Dato start","date")}</div><div>${inp("end_date","Dato slutt","date")}</div></div>
+      ${inp("gift_to","Gave til")}
+      ${inp("size","Størrelse")}
+      ${inp("designer","Designet av")}
+    </div>
+
+    <h3>Garn</h3>
+    <div id="yarns">${s.yarns.map((y,i)=>yarnRow(y,i)).join("")}</div>
+    <button type="button" class="sec full" id="addYarn">+ Legg til garn</button>
+
+    <h3>Detaljer</h3>
+    <div class="card">
+      ${inp("yarn_consumption","Garnforbruk (f.eks. 2 nøster / 100 g)")}
+      ${inp("gauge","Strikkefasthet (f.eks. 24 m x 32 p = 10 cm)")}
+      ${inp("needle_size","Pinnestørrelse")}
+      <label>Vaskeanvisning</label><textarea name="washing_instructions">${esc(s.washing_instructions)}</textarea>
+      <label>Notater</label><textarea name="notes">${esc(s.notes)}</textarea>
+    </div>
+
+    <h3>Bilder</h3>
+    <div class="card">
+      <div class="photos" id="ph">
+        ${s.photos.map(x=>`<div class="ph" data-open="${esc(urls[x.storage_path]||"")}" style="background-image:url('${urls[x.storage_path]||""}')">${readOnly?"":`<button type="button" data-rm="${x.id}">×</button>`}</div>`).join("")}
+        ${s.newFiles.map((f,i)=>`<div class="ph" style="background-image:url('${f.preview}')"><button type="button" data-rmnew="${i}">×</button></div>`).join("")}
+      </div>
+      ${readOnly ? "" : `<div class="row" style="margin-top:10px">
+        <button type="button" class="sec" id="cam">📷 Ta bilde</button>
+        <button type="button" class="sec" id="gal">🖼️ Velg bilde</button></div>
+      <input type="file" id="fcam" accept="image/*" capture="environment" class="hide">
+      <input type="file" id="fgal" accept="image/*" multiple class="hide">`}
+    </div>
+    </fieldset>
+    ${readOnly ? `<p class="muted">Du ser dette prosjektet som administrator (skrivebeskyttet).</p>` : `
+    <button class="full" id="save" style="margin-top:6px">Lagre prosjekt</button>
+    ${editing ? `<button type="button" class="danger full" id="del" style="margin-top:10px">Slett prosjekt</button>` : ""}`}
+    <button type="button" class="link full" id="back" style="margin-top:6px">← Tilbake</button>
+  </form>`;
+
+  // sync tekstfelt -> state
+  v.querySelectorAll("[name]").forEach(el => el.oninput = () => { s[el.name] = el.value; });
+  bindYarns(v);
+  document.getElementById("back").onclick = () => { tab="list"; render(); };
+  if(readOnly){ bindPhotoOpen(v); return; }
+  document.getElementById("addYarn").onclick = () => { s.yarns.push({quality:"",color:"",lot:"",grams_used:""}); redrawYarns(v); };
+  v.querySelectorAll("[data-rm]").forEach(b => b.onclick = e => { e.stopPropagation();
+    const id = b.dataset.rm, ph = s.photos.find(x=>x.id===id);
+    s.removedPhotos.push(ph); s.photos = s.photos.filter(x=>x.id!==id); viewEdit(); });
+  v.querySelectorAll("[data-rmnew]").forEach(b => b.onclick = () => { s.newFiles.splice(+b.dataset.rmnew,1); viewEdit(); });
+  bindPhotoOpen(v);
+  const add = async files => { for(const f of files){ s.newFiles.push({ file:f, preview:URL.createObjectURL(f) }); } viewEdit(); };
+  document.getElementById("cam").onclick = () => document.getElementById("fcam").click();
+  document.getElementById("gal").onclick = () => document.getElementById("fgal").click();
+  document.getElementById("fcam").onchange = e => add([...e.target.files]);
+  document.getElementById("fgal").onchange = e => add([...e.target.files]);
+  document.getElementById("pf").onsubmit = e => { e.preventDefault(); saveProject(); };
+  const del = document.getElementById("del"); if(del) del.onclick = deleteProject;
+}
+function bindPhotoOpen(v){
+  v.querySelectorAll("[data-open]").forEach(el => el.onclick = () => {
+    if(!el.dataset.open) return;
+    const lb = document.createElement("div"); lb.className="lightbox";
+    lb.innerHTML = `<img src="${el.dataset.open}">`; lb.onclick = () => lb.remove(); document.body.appendChild(lb);
+  });
+}
+function yarnRow(y,i){
+  return `<div class="yarn" data-i="${i}">
+    <label style="margin-top:0">Garnkvalitet</label><input data-k="quality" value="${esc(y.quality)}" placeholder="f.eks. Sandnes Tynn Peer Gynt">
+    <div class="row"><div><label>Farge</label><input data-k="color" value="${esc(y.color)}" placeholder="3073 Sjokolade"></div>
+    <div><label>Lot</label><input data-k="lot" value="${esc(y.lot)}" placeholder="116191"></div></div>
+    <div class="row"><div><label>Gram brukt</label><input data-k="grams_used" inputmode="decimal" value="${esc(y.grams_used ?? "")}" placeholder="valgfritt"></div>
+    <div style="align-self:end"><button type="button" class="danger full" data-del="${i}">Fjern</button></div></div>
+  </div>`;
+}
+function bindYarns(v){
+  v.querySelectorAll(".yarn").forEach(el => {
+    const i = +el.dataset.i;
+    el.querySelectorAll("[data-k]").forEach(inp => inp.oninput = () => { formState.yarns[i][inp.dataset.k] = inp.value; });
+    const d = el.querySelector("[data-del]");
+    d.onclick = () => { formState.yarns.splice(i,1); redrawYarns(v); };
+  });
+}
+function redrawYarns(v){ v.querySelector("#yarns").innerHTML = formState.yarns.map((y,i)=>yarnRow(y,i)).join(""); bindYarns(v); }
+
+async function saveProject(){
+  const s = formState, btn = document.getElementById("save");
+  if(!s.name.trim()) return flash("Prosjektet trenger et navn.", "err");
+  btn.disabled = true; btn.textContent = "Lagrer …";
+  try{
+    const row = {
+      name:s.name.trim(), status:s.status, start_date:s.start_date||null, end_date:s.end_date||null,
+      gift_to:s.gift_to||null, size:s.size||null, yarn_consumption:s.yarn_consumption||null, gauge:s.gauge||null,
+      needle_size:s.needle_size||null, washing_instructions:s.washing_instructions||null,
+      designer:s.designer||null, notes:s.notes||null
+    };
+    let id = editing?.id;
+    if(id){ const { error } = await sb.from("projects").update(row).eq("id", id); if(error) throw error; }
+    else { const { data, error } = await sb.from("projects").insert(row).select("id").single(); if(error) throw error; id = data.id; }
+
+    // garn: erstatt alle
+    await sb.from("project_yarns").delete().eq("project_id", id);
+    const yarns = s.yarns.filter(y => (y.quality||y.color||y.lot||y.grams_used))
+      .map((y,i) => ({ project_id:id, quality:y.quality||null, color:y.color||null, lot:y.lot||null, grams_used:num(y.grams_used), sort_order:i }));
+    if(yarns.length){ const { error } = await sb.from("project_yarns").insert(yarns); if(error) throw error; }
+
+    // fjernede bilder
+    if(s.removedPhotos.length){
+      await sb.storage.from(BUCKET).remove(s.removedPhotos.map(p=>p.storage_path));
+      await sb.from("project_photos").delete().in("id", s.removedPhotos.map(p=>p.id));
+    }
+    // nye bilder
+    for(const nf of s.newFiles){
+      const blob = await shrink(nf.file);
+      const path = `${me.id}/${id}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.jpg`;
+      const up = await sb.storage.from(BUCKET).upload(path, blob, { contentType:"image/jpeg" });
+      if(up.error) throw up.error;
+      const { error } = await sb.from("project_photos").insert({ project_id:id, storage_path:path });
+      if(error) throw error;
+    }
+    await loadProjects();
+    tab = "list"; render(); flash("Prosjektet er lagret ✔");
+  }catch(e){
+    console.error(e);
+    btn.disabled = false; btn.textContent = "Lagre prosjekt";
+    flash("Kunne ikke lagre: " + (e.message || e), "err");
+  }
+}
+async function deleteProject(){
+  if(!confirm(`Slette «${editing.name}» og alle bildene?`)) return;
+  const paths = editing.project_photos.map(p=>p.storage_path);
+  if(paths.length) await sb.storage.from(BUCKET).remove(paths);
+  const { error } = await sb.from("projects").delete().eq("id", editing.id);
+  if(error) return flash(error.message, "err");
+  await loadProjects(); tab="list"; render(); flash("Prosjektet er slettet.");
+}
+
+/* ---- rapport ---- */
+function countBy(arr, fn, valFn){
+  const m = new Map();
+  arr.forEach(x => { const k = fn(x); if(k==null||k==="") return; m.set(k, (m.get(k)||0) + (valFn?valFn(x):1)); });
+  return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+}
+function bars(rows, unit=""){
+  if(!rows.length) return `<div class="muted">Ingen data ennå.</div>`;
+  const max = Math.max(...rows.map(r=>r[1]));
+  return rows.slice(0,8).map(([n,v]) => `<div class="bar"><div class="n">${esc(n)}</div><div class="b"><i style="width:${Math.max(4,v/max*100)}%"></i></div><div class="v">${Math.round(v*10)/10}${unit}</div></div>`).join("");
+}
+function viewReport(){
+  const v = document.getElementById("view"), admin = profile?.is_admin;
+  const yarns = projects.flatMap(p => p.project_yarns.map(y => ({...y, status:p.status})));
+  const grams = yarns.reduce((a,y)=>a+(y.grams_used||0),0);
+  const done = projects.filter(p=>p.status==="ferdig");
+  const days = done.filter(p=>p.start_date&&p.end_date).map(p=>(new Date(p.end_date)-new Date(p.start_date))/864e5);
+  const avg = days.length ? Math.round(days.reduce((a,b)=>a+b,0)/days.length) : null;
+  v.innerHTML = `
+    ${admin ? `<div class="seg"><button data-s="0" class="${!showAll?"on":""}">Mine</button><button data-s="1" class="${showAll?"on":""}">Alle (admin)</button></div>` : ""}
+    <div class="kpis">
+      <div class="kpi"><b>${projects.length}</b><span>Prosjekter</span></div>
+      <div class="kpi"><b>${done.length}</b><span>Ferdige</span></div>
+      <div class="kpi"><b>${Math.round(grams)}</b><span>Gram garn registrert</span></div>
+      <div class="kpi"><b>${avg ?? "–"}</b><span>Snitt dager (ferdige)</span></div>
+    </div>
+    <div class="card"><h2>Etter status</h2>${bars(countBy(projects,p=>p.status))}</div>
+    <div class="card"><h2>Per år (start)</h2>${bars(countBy(projects,p=>p.start_date?.slice(0,4)))}</div>
+    <div class="card"><h2>Garnkvalitet (gram)</h2>${bars(countBy(yarns,y=>y.quality,y=>y.grams_used||0),"g")}</div>
+    <div class="card"><h2>Garnkvalitet (antall prosjekter)</h2>${bars(countBy(yarns,y=>y.quality))}</div>
+    <div class="card"><h2>Designere</h2>${bars(countBy(projects,p=>p.designer))}</div>
+    <div class="card"><h2>Gaver til</h2>${bars(countBy(projects,p=>p.gift_to))}</div>
+    <button class="sec full" id="csv">⬇️ Last ned CSV</button>
+    <p class="muted" style="margin-top:12px">Felles rapporter for alle brukere finnes i PowerBI, koblet mot samme database.</p>`;
+  v.querySelectorAll(".seg button").forEach(b => b.onclick = async () => { showAll = b.dataset.s==="1"; await loadProjects(); render(); });
+  document.getElementById("csv").onclick = exportCsv;
+}
+function exportCsv(){
+  const cols = ["name","status","start_date","end_date","gift_to","size","designer","yarn_consumption","gauge","needle_size","washing_instructions","notes"];
+  const head = ["Prosjekt","Status","Start","Slutt","Gave til","Størrelse","Designer","Garnforbruk","Strikkefasthet","Pinnestørrelse","Vaskeanvisning","Notater","Garn"];
+  const q = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
+  const lines = [head.map(q).join(";")].concat(projects.map(p =>
+    cols.map(c=>q(p[c])).concat(q(p.project_yarns.map(y=>[y.quality,y.color,y.lot&&("lot "+y.lot)].filter(Boolean).join(" ")).join(" | "))).join(";")));
+  const blob = new Blob(["﻿"+lines.join("\n")], { type:"text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "strikkeprosjekter.csv"; a.click();
+}
+
+/* ---- profil ---- */
+function viewProfile(){
+  const v = document.getElementById("view");
+  v.innerHTML = `<div class="card">
+    <label style="margin-top:0">Navn</label><input id="dn" value="${esc(profile?.display_name||"")}">
+    <label>E-post</label><input value="${esc(me.email)}" disabled>
+    <button class="full" id="sv" style="margin-top:14px">Lagre navn</button></div>
+    <button class="sec full" id="out">Logg ut</button>`;
+  document.getElementById("sv").onclick = async () => {
+    const name = document.getElementById("dn").value.trim();
+    const { error } = await sb.from("profiles").update({ display_name:name }).eq("id", me.id);
+    if(error) return flash(error.message, "err");
+    profile.display_name = name; render(); flash("Lagret ✔");
+  };
+  document.getElementById("out").onclick = () => sb.auth.signOut();
+}
+
+boot();
+</script>
+</body>
+</html>
