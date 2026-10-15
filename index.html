@@ -65,10 +65,36 @@ nav.tabs button.on{color:var(--honey-d)}
 .hide{display:none!important}
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:20;display:grid;place-items:center}
 .lightbox img{max-width:100%;max-height:100%}
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 12px}
+.chip{background:#fff;color:var(--ink);border:1px solid var(--line);padding:7px 14px;border-radius:99px;font-weight:500;font-size:14px}
+.chip.on{background:var(--honey);border-color:var(--honey);color:#fff}
+.suffix{position:relative}.suffix input{padding-right:34px}
+.suffix span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.recipe{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.recipe a{color:var(--honey-d);font-weight:600;word-break:break-all}
+#printArea{display:none}
+@media print{
+  html,body{background:#fff!important;padding:0!important}
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block;color:#000;font-size:11pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printArea h1{font-size:22pt;margin:0 0 2pt;color:#8f5a1f}
+  #printArea h2{font-size:13pt;margin:14pt 0 5pt;color:#8f5a1f}
+  .psub{color:#666;margin-bottom:12pt;border-bottom:2px solid #b9772f;padding-bottom:6pt}
+  .pt{width:100%;border-collapse:collapse}
+  .pt th,.pt td{text-align:left;padding:4pt 6pt;border-bottom:1px solid #ddd;vertical-align:top}
+  .pt:not(.grid) th{width:32%;color:#555;font-weight:600}
+  .pt.grid thead th{background:#f4e4cc}
+  .pn{white-space:pre-wrap;margin:0}
+  .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8pt}
+  .pgrid img{width:100%;max-height:85mm;object-fit:contain;break-inside:avoid;background:#faf6f0}
+  .pfoot{margin-top:16pt;font-size:9pt;color:#888}
+  @page{margin:14mm}
+}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="printArea"></div>
 
 <script>
 /* =========================================================
@@ -92,6 +118,29 @@ let editing = null;         // null = nytt, ellers prosjekt-objekt
 let formState = null;       // arbeidskopi i skjema
 let showAll = false;        // admin: vis alle
 let recovery = false;
+let statusFilter = new Set();   // tom = alle statuser (delt mellom liste og rapport)
+try{ statusFilter = new Set(JSON.parse(localStorage.getItem("statusFilter")||"[]").filter(x=>STATUSES.includes(x))); }catch(e){}
+
+const visible = () => statusFilter.size ? projects.filter(p => statusFilter.has(p.status)) : projects;
+function saveFilter(){ try{ localStorage.setItem("statusFilter", JSON.stringify([...statusFilter])); }catch(e){} }
+function filterBar(){
+  const cnt = s => projects.filter(p=>p.status===s).length;
+  return `<div class="chips" id="chips">
+    <button type="button" class="chip ${statusFilter.size?"":"on"}" data-st="">Alle (${projects.length})</button>
+    ${STATUSES.map(s=>`<button type="button" class="chip ${statusFilter.has(s)?"on":""}" data-st="${s}">${s} (${cnt(s)})</button>`).join("")}
+  </div>`;
+}
+function bindFilter(root, rerender){
+  root.querySelectorAll("#chips .chip").forEach(b => b.onclick = () => {
+    const st = b.dataset.st;
+    if(!st) statusFilter.clear();
+    else {
+      statusFilter.has(st) ? statusFilter.delete(st) : statusFilter.add(st);
+      if(statusFilter.size === STATUSES.length) statusFilter.clear();
+    }
+    saveFilter(); rerender();
+  });
+}
 
 /* ---------- hjelpere ---------- */
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -239,20 +288,24 @@ function renderRecovery(){
 /* ---- prosjektliste ---- */
 function viewList(){
   const v = document.getElementById("view");
-  const admin = profile?.is_admin;
+  const admin = profile?.is_admin, list = visible();
   v.innerHTML = `
     ${admin ? `<div class="seg"><button data-s="0" class="${!showAll?"on":""}">Mine</button><button data-s="1" class="${showAll?"on":""}">Alle (admin)</button></div>` : ""}
-    <div class="plist">${projects.length ? projects.map(p => `
+    ${filterBar()}
+    <div class="plist">${list.length ? list.map(p => `
       <div class="card item" data-id="${p.id}">
         <div class="thumb" style="${thumbs[p.id]?`background-image:url('${thumbs[p.id]}')`:""}">${thumbs[p.id]?"":"🧶"}</div>
         <div style="min-width:0">
           <div class="t">${esc(p.name)}</div>
           <div class="s"><span class="badge ${p.status}">${esc(p.status)}</span>${p.gift_to?`🎁 ${esc(p.gift_to)}`:""}</div>
-          <div class="s">${[p.designer && "av "+esc(p.designer), p.start_date && fmtDate(p.start_date), showAll && owners[p.owner_id] && "👤 "+esc(owners[p.owner_id])].filter(Boolean).join(" · ")}</div>
+          <div class="s">${[p.designer && "av "+esc(p.designer), p.start_date && fmtDate(p.start_date), p.recipe_path && "📄 oppskrift", showAll && owners[p.owner_id] && "👤 "+esc(owners[p.owner_id])].filter(Boolean).join(" · ")}</div>
         </div>
-      </div>`).join("") : `<div class="card muted" style="text-align:center">Ingen prosjekter ennå.<br><br><button id="first">Registrer første prosjekt</button></div>`}
+      </div>`).join("") : (projects.length
+        ? `<div class="card muted" style="text-align:center">Ingen prosjekter med valgt status.</div>`
+        : `<div class="card muted" style="text-align:center">Ingen prosjekter ennå.<br><br><button id="first">Registrer første prosjekt</button></div>`)}
     </div>`;
   v.querySelectorAll(".seg button").forEach(b => b.onclick = async () => { showAll = b.dataset.s==="1"; await loadProjects(); render(); });
+  bindFilter(v, viewList);
   v.querySelectorAll(".item").forEach(el => el.onclick = () => openEditor(projects.find(p=>p.id===el.dataset.id)));
   const f = document.getElementById("first"); if(f) f.onclick = () => openEditor(null);
 }
@@ -264,11 +317,12 @@ function openEditor(p){
     ...p,
     yarns: p.project_yarns.map(y => ({ ...y })),
     photos: p.project_photos.map(x => ({ ...x })),
-    removedPhotos: [], newFiles: []
+    removedPhotos: [], newFiles: [], recipeFile: null, recipeRemoved: false
   } : {
     name:"", status:"pågår", start_date:todayISO(), end_date:"", gift_to:"", size:"", yarn_consumption:"",
     gauge:"", needle_size:"", washing_instructions:"", designer:"", notes:"",
-    yarns:[{ quality:"", color:"", lot:"", grams_used:"" }], photos:[], removedPhotos:[], newFiles:[]
+    recipe_path:null, recipe_name:null, recipeFile:null, recipeRemoved:false,
+    yarns:[{ supplier:"", quality:"", color:"", lot:"", grams_used:"" }], photos:[], removedPhotos:[], newFiles:[]
   };
   tab = "edit"; render();
 }
@@ -276,6 +330,8 @@ async function viewEdit(){
   const v = document.getElementById("view"), s = formState;
   const readOnly = editing && editing.owner_id !== me.id;
   const urls = await signedUrls(s.photos.map(x => x.storage_path));
+  const hasRecipe = !!(s.recipeFile || (s.recipe_path && !s.recipeRemoved));
+  const recipeUrl = (s.recipe_path && !s.recipeRemoved && !s.recipeFile) ? (await signedUrls([s.recipe_path]))[s.recipe_path] : null;
   const inp = (k, label, type="text", extra="") => `<label>${label}</label><input name="${k}" type="${type}" value="${esc(s[k])}" ${extra}>`;
   v.innerHTML = `
   <form id="pf">
@@ -314,10 +370,22 @@ async function viewEdit(){
       <input type="file" id="fcam" accept="image/*" capture="environment" class="hide">
       <input type="file" id="fgal" accept="image/*" multiple class="hide">`}
     </div>
+
+    <h3>Oppskrift (PDF)</h3>
+    <div class="card recipe">
+      ${s.recipeFile ? `<span>📄 ${esc(s.recipeFile.name)} <span class="muted">(lagres når du trykker Lagre)</span></span>`
+        : (hasRecipe ? `<a href="${esc(recipeUrl||"#")}" target="_blank" rel="noopener">📄 ${esc(s.recipe_name||"Oppskrift.pdf")}</a>`
+        : `<span class="muted">Ingen oppskrift lagt til.</span>`)}
+      ${readOnly ? "" : `<div class="row" style="flex-basis:100%">
+        <button type="button" class="sec" id="pickRecipe">📎 ${hasRecipe ? "Bytt PDF" : "Legg til PDF"}</button>
+        ${hasRecipe ? `<button type="button" class="danger" id="rmRecipe">Fjern</button>` : ""}</div>
+      <input type="file" id="frec" accept="application/pdf,.pdf" class="hide">`}
+    </div>
     </fieldset>
     ${readOnly ? `<p class="muted">Du ser dette prosjektet som administrator (skrivebeskyttet).</p>` : `
     <button class="full" id="save" style="margin-top:6px">Lagre prosjekt</button>
     ${editing ? `<button type="button" class="danger full" id="del" style="margin-top:10px">Slett prosjekt</button>` : ""}`}
+    <button type="button" class="sec full" id="prt" style="margin-top:10px">🖨️ Skriv ut / lagre som PDF</button>
     <button type="button" class="link full" id="back" style="margin-top:6px">← Tilbake</button>
   </form>`;
 
@@ -325,8 +393,19 @@ async function viewEdit(){
   v.querySelectorAll("[name]").forEach(el => el.oninput = () => { s[el.name] = el.value; });
   bindYarns(v);
   document.getElementById("back").onclick = () => { tab="list"; render(); };
+  document.getElementById("prt").onclick = printProject;
   if(readOnly){ bindPhotoOpen(v); return; }
-  document.getElementById("addYarn").onclick = () => { s.yarns.push({quality:"",color:"",lot:"",grams_used:""}); redrawYarns(v); };
+  document.getElementById("addYarn").onclick = () => { s.yarns.push({supplier:"",quality:"",color:"",lot:"",grams_used:""}); redrawYarns(v); };
+  const rf = document.getElementById("frec");
+  document.getElementById("pickRecipe").onclick = () => rf.click();
+  rf.onchange = e => {
+    const f = e.target.files[0]; if(!f) return;
+    if(f.type !== "application/pdf" && !/\.pdf$/i.test(f.name)) return flash("Velg en PDF-fil.", "err");
+    if(f.size > 20*1024*1024) return flash("PDF-en er for stor (maks 20 MB).", "err");
+    s.recipeFile = f; viewEdit();
+  };
+  const rr = document.getElementById("rmRecipe");
+  if(rr) rr.onclick = () => { if(s.recipeFile) s.recipeFile = null; else s.recipeRemoved = true; viewEdit(); };
   v.querySelectorAll("[data-rm]").forEach(b => b.onclick = e => { e.stopPropagation();
     const id = b.dataset.rm, ph = s.photos.find(x=>x.id===id);
     s.removedPhotos.push(ph); s.photos = s.photos.filter(x=>x.id!==id); viewEdit(); });
@@ -349,10 +428,11 @@ function bindPhotoOpen(v){
 }
 function yarnRow(y,i){
   return `<div class="yarn" data-i="${i}">
-    <label style="margin-top:0">Garnkvalitet</label><input data-k="quality" value="${esc(y.quality)}" placeholder="f.eks. Sandnes Tynn Peer Gynt">
+    <label style="margin-top:0">Garn leverandør</label><input data-k="supplier" value="${esc(y.supplier)}" placeholder="f.eks. Sandnes Garn">
+    <label>Garn kvalitet</label><input data-k="quality" value="${esc(y.quality)}" placeholder="f.eks. Tynn Peer Gynt">
     <div class="row"><div><label>Farge</label><input data-k="color" value="${esc(y.color)}" placeholder="3073 Sjokolade"></div>
     <div><label>Lot</label><input data-k="lot" value="${esc(y.lot)}" placeholder="116191"></div></div>
-    <div class="row"><div><label>Gram brukt</label><input data-k="grams_used" inputmode="decimal" value="${esc(y.grams_used ?? "")}" placeholder="valgfritt"></div>
+    <div class="row"><div><label>Garn brukt (gram)</label><div class="suffix"><input data-k="grams_used" inputmode="decimal" value="${esc(y.grams_used ?? "")}" placeholder="valgfritt"><span>g</span></div></div>
     <div style="align-self:end"><button type="button" class="danger full" data-del="${i}">Fjern</button></div></div>
   </div>`;
 }
@@ -383,8 +463,8 @@ async function saveProject(){
 
     // garn: erstatt alle
     await sb.from("project_yarns").delete().eq("project_id", id);
-    const yarns = s.yarns.filter(y => (y.quality||y.color||y.lot||y.grams_used))
-      .map((y,i) => ({ project_id:id, quality:y.quality||null, color:y.color||null, lot:y.lot||null, grams_used:num(y.grams_used), sort_order:i }));
+    const yarns = s.yarns.filter(y => (y.supplier||y.quality||y.color||y.lot||y.grams_used))
+      .map((y,i) => ({ project_id:id, supplier:y.supplier||null, quality:y.quality||null, color:y.color||null, lot:y.lot||null, grams_used:num(y.grams_used), sort_order:i }));
     if(yarns.length){ const { error } = await sb.from("project_yarns").insert(yarns); if(error) throw error; }
 
     // fjernede bilder
@@ -401,6 +481,19 @@ async function saveProject(){
       const { error } = await sb.from("project_photos").insert({ project_id:id, storage_path:path });
       if(error) throw error;
     }
+    // oppskrift (PDF): last opp ny / fjern gammel
+    if(s.recipeFile || s.recipeRemoved){
+      const patch = { recipe_path:null, recipe_name:null };
+      if(s.recipeFile){
+        const rp = `${me.id}/${id}/${Date.now()}-oppskrift.pdf`;
+        const up = await sb.storage.from(BUCKET).upload(rp, s.recipeFile, { contentType:"application/pdf" });
+        if(up.error) throw up.error;
+        patch.recipe_path = rp; patch.recipe_name = s.recipeFile.name;
+      }
+      const { error } = await sb.from("projects").update(patch).eq("id", id);
+      if(error) throw error;
+      if(s.recipe_path) await sb.storage.from(BUCKET).remove([s.recipe_path]);
+    }
     await loadProjects();
     tab = "list"; render(); flash("Prosjektet er lagret ✔");
   }catch(e){
@@ -411,7 +504,7 @@ async function saveProject(){
 }
 async function deleteProject(){
   if(!confirm(`Slette «${editing.name}» og alle bildene?`)) return;
-  const paths = editing.project_photos.map(p=>p.storage_path);
+  const paths = editing.project_photos.map(p=>p.storage_path).concat(editing.recipe_path ? [editing.recipe_path] : []);
   if(paths.length) await sb.storage.from(BUCKET).remove(paths);
   const { error } = await sb.from("projects").delete().eq("id", editing.id);
   if(error) return flash(error.message, "err");
@@ -431,38 +524,74 @@ function bars(rows, unit=""){
 }
 function viewReport(){
   const v = document.getElementById("view"), admin = profile?.is_admin;
-  const yarns = projects.flatMap(p => p.project_yarns.map(y => ({...y, status:p.status})));
+  const list = visible();
+  const yarns = list.flatMap(p => p.project_yarns.map(y => ({...y, status:p.status})));
   const grams = yarns.reduce((a,y)=>a+(y.grams_used||0),0);
-  const done = projects.filter(p=>p.status==="ferdig");
+  const done = list.filter(p=>p.status==="ferdig");
   const days = done.filter(p=>p.start_date&&p.end_date).map(p=>(new Date(p.end_date)-new Date(p.start_date))/864e5);
   const avg = days.length ? Math.round(days.reduce((a,b)=>a+b,0)/days.length) : null;
   v.innerHTML = `
     ${admin ? `<div class="seg"><button data-s="0" class="${!showAll?"on":""}">Mine</button><button data-s="1" class="${showAll?"on":""}">Alle (admin)</button></div>` : ""}
+    ${filterBar()}
     <div class="kpis">
-      <div class="kpi"><b>${projects.length}</b><span>Prosjekter</span></div>
+      <div class="kpi"><b>${list.length}</b><span>Prosjekter</span></div>
       <div class="kpi"><b>${done.length}</b><span>Ferdige</span></div>
       <div class="kpi"><b>${Math.round(grams)}</b><span>Gram garn registrert</span></div>
       <div class="kpi"><b>${avg ?? "–"}</b><span>Snitt dager (ferdige)</span></div>
     </div>
-    <div class="card"><h2>Etter status</h2>${bars(countBy(projects,p=>p.status))}</div>
-    <div class="card"><h2>Per år (start)</h2>${bars(countBy(projects,p=>p.start_date?.slice(0,4)))}</div>
-    <div class="card"><h2>Garnkvalitet (gram)</h2>${bars(countBy(yarns,y=>y.quality,y=>y.grams_used||0),"g")}</div>
-    <div class="card"><h2>Garnkvalitet (antall prosjekter)</h2>${bars(countBy(yarns,y=>y.quality))}</div>
-    <div class="card"><h2>Designere</h2>${bars(countBy(projects,p=>p.designer))}</div>
-    <div class="card"><h2>Gaver til</h2>${bars(countBy(projects,p=>p.gift_to))}</div>
+    <div class="card"><h2>Etter status</h2>${bars(countBy(list,p=>p.status))}</div>
+    <div class="card"><h2>Per år (start)</h2>${bars(countBy(list,p=>p.start_date?.slice(0,4)))}</div>
+    <div class="card"><h2>Garn leverandør (gram)</h2>${bars(countBy(yarns,y=>y.supplier,y=>y.grams_used||0),"g")}</div>
+    <div class="card"><h2>Garn kvalitet (gram)</h2>${bars(countBy(yarns,y=>y.quality,y=>y.grams_used||0),"g")}</div>
+    <div class="card"><h2>Garn kvalitet (antall garn)</h2>${bars(countBy(yarns,y=>y.quality))}</div>
+    <div class="card"><h2>Designere</h2>${bars(countBy(list,p=>p.designer))}</div>
+    <div class="card"><h2>Gaver til</h2>${bars(countBy(list,p=>p.gift_to))}</div>
     <button class="sec full" id="csv">⬇️ Last ned CSV</button>
     <p class="muted" style="margin-top:12px">Felles rapporter for alle brukere finnes i PowerBI, koblet mot samme database.</p>`;
   v.querySelectorAll(".seg button").forEach(b => b.onclick = async () => { showAll = b.dataset.s==="1"; await loadProjects(); render(); });
+  bindFilter(v, viewReport);
   document.getElementById("csv").onclick = exportCsv;
 }
 function exportCsv(){
   const cols = ["name","status","start_date","end_date","gift_to","size","designer","yarn_consumption","gauge","needle_size","washing_instructions","notes"];
   const head = ["Prosjekt","Status","Start","Slutt","Gave til","Størrelse","Designer","Garnforbruk","Strikkefasthet","Pinnestørrelse","Vaskeanvisning","Notater","Garn"];
   const q = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
-  const lines = [head.map(q).join(";")].concat(projects.map(p =>
-    cols.map(c=>q(p[c])).concat(q(p.project_yarns.map(y=>[y.quality,y.color,y.lot&&("lot "+y.lot)].filter(Boolean).join(" ")).join(" | "))).join(";")));
+  const lines = [head.map(q).join(";")].concat(visible().map(p =>
+    cols.map(c=>q(p[c])).concat(q(p.project_yarns.map(y=>[y.supplier,y.quality,y.color,y.lot&&("lot "+y.lot),y.grams_used!=null&&(y.grams_used+" g")].filter(Boolean).join(" ")).join(" | "))).join(";")));
   const blob = new Blob(["﻿"+lines.join("\n")], { type:"text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "strikkeprosjekter.csv"; a.click();
+}
+
+/* ---- utskrift / PDF av ett prosjekt (bruker nettleserens «Lagre som PDF») ---- */
+async function printProject(){
+  const s = formState, area = document.getElementById("printArea");
+  const urls = await signedUrls(s.photos.map(x => x.storage_path));
+  const pics = [...s.photos.map(x => urls[x.storage_path]).filter(Boolean), ...s.newFiles.map(f => f.preview)];
+  const owner = (editing && owners[editing.owner_id]) || profile?.display_name || "";
+  const row = (k, v) => v ? `<tr><th>${k}</th><td>${esc(v)}</td></tr>` : "";
+  const recipe = s.recipeFile ? s.recipeFile.name : ((!s.recipeRemoved && s.recipe_name) || "");
+  const yarns = s.yarns.filter(y => y.supplier||y.quality||y.color||y.lot||y.grams_used);
+  const grams = y => (y.grams_used !== "" && y.grams_used != null) ? esc(y.grams_used) + " g" : "";
+  area.innerHTML = `
+    <h1>${esc(s.name || "Strikkeprosjekt")}</h1>
+    <div class="psub">Strikkeprosjekt · ${esc(s.status)}${owner ? " · " + esc(owner) : ""}</div>
+    <table class="pt">
+      ${row("Dato start", fmtDate(s.start_date))}${row("Dato slutt", fmtDate(s.end_date))}
+      ${row("Gave til", s.gift_to)}${row("Størrelse", s.size)}${row("Designet av", s.designer)}
+      ${row("Pinnestørrelse", s.needle_size)}${row("Strikkefasthet", s.gauge)}${row("Garnforbruk", s.yarn_consumption)}
+      ${row("Vaskeanvisning", s.washing_instructions)}${row("Oppskrift (PDF)", recipe)}
+    </table>
+    ${yarns.length ? `<h2>Garn</h2><table class="pt grid"><thead><tr><th>Leverandør</th><th>Kvalitet</th><th>Farge</th><th>Lot</th><th>Garn brukt</th></tr></thead><tbody>
+      ${yarns.map(y => `<tr><td>${esc(y.supplier)}</td><td>${esc(y.quality)}</td><td>${esc(y.color)}</td><td>${esc(y.lot)}</td><td>${grams(y)}</td></tr>`).join("")}
+    </tbody></table>` : ""}
+    ${s.notes ? `<h2>Notater</h2><p class="pn">${esc(s.notes)}</p>` : ""}
+    ${pics.length ? `<h2>Bilder</h2><div class="pgrid">${pics.map(u => `<img src="${esc(u)}" alt="">`).join("")}</div>` : ""}
+    <div class="pfoot">Utskrift ${new Date().toLocaleDateString("nb-NO")}</div>`;
+  await Promise.all([...area.querySelectorAll("img")].map(i => i.complete ? null : new Promise(r => { i.onload = i.onerror = r; })));
+  const oldTitle = document.title;
+  document.title = "Strikk - " + (s.name || "prosjekt");   // blir standard filnavn på PDF-en
+  window.addEventListener("afterprint", () => { document.title = oldTitle; area.innerHTML = ""; }, { once:true });
+  window.print();
 }
 
 /* ---- profil ---- */
