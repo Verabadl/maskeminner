@@ -109,11 +109,103 @@ nav.tabs button.on{color:var(--accent-d)}
   .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8pt}
   .pgrid img{width:100%;max-height:85mm;object-fit:contain;break-inside:avoid;background:#faf6f0}
   .pfoot{margin-top:16pt;font-size:9pt;color:#888}
+  .pt.grid td,.pt.grid th{font-size:8.5pt}
   @page{margin:14mm}
 }
+
+/* ================= PC-visning ================= */
+.grow{flex:1}
+.tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.14);border-radius:10px;padding:8px 10px;font-size:13px;max-width:300px;color:#0b0b0b}
+.tip .th{color:#52514e;margin-bottom:4px}
+.tip .tr{display:flex;align-items:center;gap:8px;line-height:1.5}
+.tip .tk{width:12px;height:3px;border-radius:2px;flex:none}
+.tip b{margin-left:auto;padding-left:14px;font-weight:600}
+body[data-layout="desktop"]{padding-bottom:0;font-size:15px}
+.dshell{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:100vh}
+.dside{position:sticky;top:0;height:100vh;overflow:auto;background:#fff;border-right:1px solid var(--line);padding:20px 14px 14px;display:flex;flex-direction:column;gap:2px}
+.dbrand{font-size:20px;font-weight:700;color:var(--accent-d);padding:0 8px 10px}
+.dlabel{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:14px 10px 4px}
+.dside .seg{margin:2px 0 0}
+.dside .craftlabel{margin:2px 0 0;align-self:flex-start}
+.dnav{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;color:var(--ink);padding:9px 10px;border-radius:10px;font-weight:500;font-size:15px}
+.dnav .ic{width:22px;text-align:center}
+.dnav:hover{background:var(--accent-l)}
+.dnav.on{background:var(--accent-l);color:var(--accent-d);font-weight:700}
+.dnav.new{background:var(--accent);color:#fff;margin-top:6px}
+.dnav.new.on,.dnav.new:hover{background:var(--accent-d);color:#fff}
+.dfoot{margin-top:auto;padding:14px 8px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.dfoot .link{padding:4px 0}
+.dmain{padding:0 32px 56px;min-width:0}
+.dtop{position:sticky;top:0;z-index:4;background:var(--bg);display:flex;align-items:center;gap:16px;padding:18px 0 14px;border-bottom:1px solid var(--line)}
+.dtop h1{font-size:24px;margin:0}
+.seg.inl{display:inline-flex;margin:0}
+.seg.inl button{padding:7px 14px;flex:none}
+.dfilters{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:16px 0 14px}
+.dfilters .chips{padding:0;margin:0}
+.dfilters select{width:auto;padding:8px 10px}
+.dtabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:4px 0 16px}
+.dtabs button{background:none;color:var(--muted);border-radius:0;padding:10px 16px;border-bottom:3px solid transparent;font-weight:600}
+.dtabs button.on{color:var(--accent-d);border-bottom-color:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.tile{background:#fcfcfb;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.tile span{font-size:13px;color:#52514e}
+.tile b{display:block;font-size:28px;font-weight:600;margin-top:2px;color:#0b0b0b}
+.tile small{color:#52514e;font-size:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:16px;align-items:start}
+.viz{background:#fcfcfb;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.viz header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.viz h4{margin:0;font-size:15px;color:#0b0b0b}
+.viz .vsub{font-size:12px;color:#52514e;margin-top:2px}
+.vtoggle{background:none;color:#52514e;border:1px solid var(--line);padding:3px 10px;font-size:12px;font-weight:500;border-radius:8px;flex:none}
+.hb{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
+.hb .hl{width:150px;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#52514e}
+.hb .hbar{flex:1;display:flex;align-items:center;gap:8px;min-width:0}
+.hb .stk{display:flex;gap:2px;height:20px;min-width:0}
+.hb .hv{color:#52514e;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sg{display:block;min-width:3px;outline:none}
+.sg.last{border-radius:0 4px 4px 0}
+.sg:hover,.sg:focus-visible{filter:brightness(1.12)}
+.sb{display:flex;gap:2px;height:24px}
+.sb .sg{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+.sb .sg.first{border-radius:4px 0 0 4px}.sb .sg.last{border-radius:0 4px 4px 0}.sb .sg.first.last{border-radius:4px}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:#52514e}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.legend b{color:#0b0b0b;font-weight:600}
+.hit{fill:transparent;outline:none}.hit:hover,.hit:focus{fill:rgba(11,11,11,.05)}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:#fff}
+.dtable{width:100%;border-collapse:collapse;font-size:14px}
+.dtable th{position:sticky;top:0;background:#faf8f4;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);white-space:nowrap;user-select:none}
+.dtable th[data-k]{cursor:pointer}.dtable th[data-k]:hover{color:var(--accent-d)}
+.dtable th.sorted{color:var(--accent-d)}
+.dtable td,.dtable th{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.dtable tr:last-child td{border-bottom:0}
+.dtable .num{text-align:right}.dtable td.num{font-variant-numeric:tabular-nums}
+.dtable tr[data-id]{cursor:pointer}.dtable tr[data-id]:hover td{background:var(--accent-l)}
+.dtable input[type=checkbox]{width:18px;height:18px;margin:0}
+.dtool{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:16px 0 12px}
+.dtool .chips{padding:0;margin:0}
+.searchbox.inl{width:340px;margin:0}
+.reptools{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.repwrap{display:grid;grid-template-columns:270px minmax(0,1fr);gap:20px;align-items:start}
+.replist{display:flex;flex-direction:column;gap:6px;position:sticky;top:84px}
+.replist button{text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);padding:10px 12px;border-radius:12px;font-weight:400;display:flex;flex-direction:column;gap:2px}
+.replist button b{font-weight:600}
+.replist button span{font-size:12px;color:var(--muted)}
+.replist button.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.sw{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-size:15px;color:var(--ink)}
+.sw input{width:18px;height:18px;margin:0}
+.viz p{margin:6px 0}
+body[data-layout="desktop"] .formgrid{column-count:2;column-gap:28px}
+body[data-layout="desktop"] .fsec{break-inside:avoid;padding-bottom:2px}
+body[data-layout="desktop"] .fsec h3:first-child{margin-top:4px}
+body[data-layout="desktop"] #pf{display:flex;flex-direction:column;max-width:1200px}
+body[data-layout="desktop"] #pf .actions{order:-1;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 6px;position:sticky;top:64px;z-index:3;background:var(--bg);padding:12px 0 6px}
+body[data-layout="desktop"] #pf .actions button{width:auto;margin:0!important;padding:10px 18px}
+body[data-layout="desktop"] #pf .actions p{margin:0}
+@media (max-width:1180px){body[data-layout="desktop"] .formgrid{column-count:1}}
 </style>
 </head>
-<body data-craft="strikking">
+<body data-craft="strikking" data-layout="mobile">
 <div id="app"></div>
 <div id="printArea"></div>
 
@@ -294,6 +386,7 @@ async function afterAuth(){
   const { data } = await sb.from("profiles").select("*").eq("id", me.id).maybeSingle();
   profile = data || { id:me.id, display_name:me.email, email:me.email, is_admin:false, access_knit:false, access_crochet:false };
   ensureCraft();
+  if(profile.is_admin && isDesktop() && !adminInit){ showAll = true; adminInit = true; }   // admin på PC starter med alle brukeres data
   await Promise.all([loadProjects(), loadChoices()]);
   render();
 }
@@ -360,6 +453,13 @@ function craftBar(lock){
   return `<div class="seg craft" id="craftseg">${can.map(c => `<button type="button" data-c="${c}" class="${c===craft?"on":""}">${CRAFTS[c].label}</button>`).join("")}</div>`;
 }
 function render(){
+  const desk = isDesktop();
+  document.body.dataset.layout = desk ? "desktop" : "mobile";
+  if(recovery) return renderRecovery();
+  if(!me) return renderAuth();
+  return desk ? renderDesktop() : renderMobile();
+}
+function renderMobile(){
   if(recovery) return renderRecovery();
   if(!me) return renderAuth();
   const can = allowed(), admin = !!profile?.is_admin;
@@ -499,7 +599,7 @@ function openEditor(p){
     recipe_path:null, recipe_name:null, recipeFile:null, recipeRemoved:false,
     yarns:[{ supplier:"", quality:"", color:"", lot:"", grams_used:"" }], photos:[], removedPhotos:[], newFiles:[]
   };
-  tab = "edit"; render();
+  tab = "edit"; dtab = "edit"; render();
 }
 function optionsFor(c, key, current){
   const list = [...(choices[c + "/" + key] || [])];
@@ -520,22 +620,23 @@ async function viewEdit(){
   };
   v.innerHTML = `
   <form id="pf">
-    <fieldset ${readOnly ? "disabled" : ""} style="border:0;padding:0;margin:0">
-    <div class="card">
+    <fieldset ${readOnly ? "disabled" : ""} style="border:0;padding:0;margin:0;min-width:0">
+    <div class="formgrid">
+    <section class="fsec"><div class="card">
       <label style="margin-top:0">Prosjekt *</label><input name="name" type="text" value="${esc(s.name)}" required>
       <label>Status</label><select name="status">${STATUSES.map(x => `<option ${s.status === x ? "selected" : ""}>${x}</option>`).join("")}</select>
       <div class="row"><div><label>Dato start</label><input name="start_date" type="date" value="${esc(s.start_date)}"></div><div><label>Dato slutt</label><input name="end_date" type="date" value="${esc(s.end_date)}"></div></div>
       ${spec.top.map(fieldHtml).join("")}
-    </div>
+    </div></section>
 
-    <h3>Garn</h3>
+    <section class="fsec"><h3>Garn</h3>
     <div id="yarns">${s.yarns.map((y,i) => yarnRow(y,i)).join("")}</div>
-    <button type="button" class="sec full" id="addYarn">+ Legg til garn</button>
+    <button type="button" class="sec full" id="addYarn">+ Legg til garn</button></section>
 
-    <h3>Detaljer</h3>
-    <div class="card">${spec.detail.map(fieldHtml).join("")}</div>
+    <section class="fsec"><h3>Detaljer</h3>
+    <div class="card">${spec.detail.map(fieldHtml).join("")}</div></section>
 
-    <h3>Bilder</h3>
+    <section class="fsec"><h3>Bilder</h3>
     <div class="card">
       <div class="photos" id="ph">
         ${s.photos.map(x => `<div class="ph" data-open="${esc(urls[x.storage_path] || "")}" style="background-image:url('${urls[x.storage_path] || ""}')">${readOnly ? "" : `<button type="button" data-rm="${x.id}">×</button>`}</div>`).join("")}
@@ -546,9 +647,9 @@ async function viewEdit(){
         <button type="button" class="sec" id="gal">🖼️ Velg bilde</button></div>
       <input type="file" id="fcam" accept="image/*" capture="environment" class="hide">
       <input type="file" id="fgal" accept="image/*" multiple class="hide">`}
-    </div>
+    </div></section>
 
-    <h3>Oppskrift (PDF)</h3>
+    <section class="fsec"><h3>Oppskrift (PDF)</h3>
     <div class="card recipe">
       ${s.recipeFile ? `<span>📄 ${esc(s.recipeFile.name)} <span class="muted">(lagres når du trykker Lagre)</span></span>`
         : (hasRecipe ? `<a href="${esc(recipeUrl || "#")}" target="_blank" rel="noopener">📄 ${esc(s.recipe_name || "Oppskrift.pdf")}</a>`
@@ -557,19 +658,22 @@ async function viewEdit(){
         <button type="button" class="sec" id="pickRecipe">📎 ${hasRecipe ? "Bytt PDF" : "Legg til PDF"}</button>
         ${hasRecipe ? `<button type="button" class="danger" id="rmRecipe">Fjern</button>` : ""}</div>
       <input type="file" id="frec" accept="application/pdf,.pdf" class="hide">`}
+    </div></section>
     </div>
     </fieldset>
-    ${readOnly ? `<p class="muted">Du ser dette prosjektet som administrator (skrivebeskyttet). Eieren er ${esc(owners[editing.owner_id] || "en annen bruker")}.</p>
+    <div class="actions">
+    ${readOnly ?`<p class="muted">Du ser dette prosjektet som administrator (skrivebeskyttet). Eieren er ${esc(owners[editing.owner_id] || "en annen bruker")}.</p>
       ${profile.is_admin ? `<button type="button" class="danger full" id="adel" style="margin-top:6px">Slett prosjekt (admin)</button>` : ""}` : `
     <button class="full" id="save" style="margin-top:6px">Lagre prosjekt</button>
     ${editing ? `<button type="button" class="danger full" id="del" style="margin-top:10px">Slett prosjekt</button>` : ""}`}
     <button type="button" class="sec full" id="prt" style="margin-top:10px">🖨️ Skriv ut / lagre som PDF</button>
     <button type="button" class="link full" id="back" style="margin-top:6px">← Tilbake</button>
+    </div>
   </form>`;
 
   v.querySelectorAll("[name]").forEach(el => el.oninput = () => { s[el.name] = el.value; });
   bindYarns(v);
-  $("back").onclick = () => { tab = "list"; render(); };
+  $("back").onclick = backToList;
   $("prt").onclick = printProject;
   if(readOnly){
     bindPhotoOpen(v);
@@ -674,7 +778,7 @@ async function saveProject(){
       if(s.recipe_path) await sb.storage.from(BUCKET).remove([s.recipe_path]);
     }
     await loadProjects();
-    tab = "list"; render(); flash("Prosjektet er lagret ✔");
+    backToList(); flash("Prosjektet er lagret ✔");
   }catch(e){
     console.error(e);
     btn.disabled = false; btn.textContent = "Lagre prosjekt";
@@ -687,7 +791,7 @@ async function deleteProject(){
   if(paths.length) await sb.storage.from(BUCKET).remove(paths);
   const { error } = await sb.from("projects").delete().eq("id", editing.id);
   if(error) return flash(error.message, "err");
-  await loadProjects(); tab = "list"; render(); flash("Prosjektet er slettet.");
+  await loadProjects(); backToList(); flash("Prosjektet er slettet.");
 }
 
 /* ---- rapport (per håndverk) ---- */
@@ -800,7 +904,12 @@ function viewProfile(){
     <label>E-post</label><input value="${esc(me.email)}" disabled>
     <label>Tilgang (styres av administrator)</label><input value="${esc(access)}" disabled>
     <button class="full" id="sv" style="margin-top:14px">Lagre navn</button></div>
+    <div class="card"><label style="margin-top:0">Visning</label>
+      <select id="lay"><option value="auto">Automatisk (velges ut fra enheten)</option><option value="mobile">Mobilvisning</option><option value="desktop">PC-visning</option></select>
+      <p class="muted" style="margin-bottom:0">Maskeminner velger selv mobil- eller PC-visning ut fra skjermstørrelse og enhet. Her kan du overstyre valget på denne enheten.</p></div>
     <button class="sec full" id="out">Logg ut</button>`;
+  $("lay").value = layoutPref;
+  $("lay").onchange = e => { layoutPref = e.target.value; store.set("layout", layoutPref); render(); };
   $("sv").onclick = async () => {
     const name = $("dn").value.trim();
     const { error } = await sb.from("profiles").update({ display_name:name }).eq("id", me.id);
@@ -871,6 +980,667 @@ function adminLists(){
     if(error) return flash(error.code === "23505" ? "Valget finnes allerede." : error.message, "err");
     await loadChoices(); adminLists();
   });
+}
+
+/* =====================================================================
+   PC-VISNING
+   Velges automatisk: bred skjerm (>= 1024 px) med mus/styreflate. Kan overstyres under Profil.
+   Samme data, innlogging og skjema som mobilvisningen – men med sidemeny, tabeller,
+   dashboards, rapportutvalg og kraftigere administrasjon.
+   ===================================================================== */
+const mqDesk = window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine)");
+let layoutPref = store.get("layout") || "auto";            // auto | mobile | desktop
+const isDesktop = () => layoutPref === "desktop" || (layoutPref !== "mobile" && mqDesk.matches);
+{
+  const onChange = () => { if(layoutPref === "auto" && me) render(); };
+  if(mqDesk.addEventListener) mqDesk.addEventListener("change", onChange); else mqDesk.addListener(onChange);
+}
+
+let dtab = "dashboard";            // dashboard | reports | projects | edit | users | lists | settings | profile
+let dashTab = "overview", repId = "overview";
+let dscope = null;                 // strikking | hekling | all (dashboard og rapporter)
+let yearFilter = "", ownerFilter = "";
+let repSort = { k:null, dir:1 }, projSort = { k:"start_date", dir:-1 }, yarnSort = { k:"grams", dir:-1 }, stalledSort = { k:"days", dir:-1 };
+let userRows = [], adminStats = null, settingsMap = {};
+let selUsers = new Set(), userQuery = "", onlyPending = false;
+let adminInit = false;
+
+const MONTHS = ["jan","feb","mar","apr","mai","jun","jul","aug","sep","okt","nov","des"];
+const backToList = () => { tab = "list"; dtab = "projects"; render(); };
+
+/* ---------- diagramfarger (validert palett, se README) ---------- */
+const VIZ = {
+  ink:"#0b0b0b", ink2:"#52514e", muted:"#898781", grid:"#e1e0d9", base:"#c3c2b7",
+  strikking:"#eb6834", hekling:"#2a78d6",                    // to håndverk i samme diagram (kategoriske spor 2 og 1)
+  main:{ strikking:"#b9772f", hekling:"#2a7b7d", all:"#2a78d6" },   // ett håndverk = dets egen aksentfarge
+  status:{ planlagt:"#86b6ef", "pågår":"#2a78d6", ferdig:"#0d366b", pause:"#898781" }   // blå ordinal rampe + nøytral for pause
+};
+const lum = hex => { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126*c[0] + .7152*c[1] + .0722*c[2]; };
+const inkOn = hex => lum(hex) > .3 ? "#0b0b0b" : "#ffffff";
+const mix = (hex, t) => { const n = parseInt(hex.slice(1), 16), ch = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.round(v + (255 - v) * t)); return "#" + ch.map(v => v.toString(16).padStart(2, "0")).join(""); };
+const compact = n => n >= 1000 ? String(Math.round(n / 100) / 10).replace(".", ",") + "k" : fmtNum(n);
+
+/* ---------- tooltip (én felles, tekst settes med textContent) ---------- */
+let tipEl = null;
+function tipShow(target, x, y){
+  let d; try{ d = JSON.parse(target.dataset.tip); }catch(e){ return; }
+  if(!tipEl){ tipEl = document.createElement("div"); tipEl.className = "tip hide"; document.body.appendChild(tipEl); }
+  tipEl.textContent = "";
+  const h = document.createElement("div"); h.className = "th"; h.textContent = d.h; tipEl.appendChild(h);
+  d.r.forEach(([name, val, color]) => {
+    const r = document.createElement("div"); r.className = "tr";
+    if(color){ const k = document.createElement("span"); k.className = "tk"; k.style.background = color; r.appendChild(k); }
+    const n = document.createElement("span"); n.textContent = name; r.appendChild(n);
+    const b = document.createElement("b"); b.textContent = val; r.appendChild(b);
+    tipEl.appendChild(r);
+  });
+  tipEl.classList.remove("hide");
+  tipEl.style.left = Math.max(8, Math.min(window.innerWidth - tipEl.offsetWidth - 8, x + 14)) + "px";
+  tipEl.style.top = Math.max(8, Math.min(window.innerHeight - tipEl.offsetHeight - 8, y + 14)) + "px";
+}
+const tipHide = () => { if(tipEl) tipEl.classList.add("hide"); };
+document.addEventListener("pointermove", e => { const m = e.target.closest && e.target.closest("[data-tip]"); if(m) tipShow(m, e.clientX, e.clientY); else tipHide(); });
+document.addEventListener("focusin", e => { const m = e.target.closest && e.target.closest("[data-tip]"); if(m){ const r = m.getBoundingClientRect(); tipShow(m, r.left + r.width / 2, r.top); } });
+document.addEventListener("focusout", tipHide);
+document.addEventListener("click", e => {          // diagram <-> tabell
+  const b = e.target.closest && e.target.closest("[data-vt]"); if(!b) return;
+  const card = b.closest(".viz"), t = card.querySelector(".vtable"), c = card.querySelector(".vbody");
+  const showTable = t.classList.contains("hide");
+  t.classList.toggle("hide", !showTable); c.classList.toggle("hide", showTable);
+  b.textContent = showTable ? "Diagram" : "Tabell"; b.setAttribute("aria-pressed", String(showTable)); tipHide();
+});
+document.addEventListener("keydown", e => {
+  if(!me || !isDesktop()) return;
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s" && dtab === "edit" && $("save")){ e.preventDefault(); saveProject(); }
+  if(e.key === "/" && dtab === "projects" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); const q = $("q"); if(q) q.focus(); }
+});
+
+/* ---------- diagramkomponenter ---------- */
+const tipData = (h, rows) => esc(JSON.stringify({ h:String(h), r:rows }));
+const legendHtml = sers => sers.length > 1 ? `<div class="legend">${sers.map(s => `<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join("")}</div>` : "";
+const tile = (l, v, sub) => `<div class="tile"><span>${esc(l)}</span><b>${esc(v)}</b>${sub ? `<small>${esc(sub)}</small>` : ""}</div>`;
+function tableView(head, rows){
+  return `<div class="tw"><table class="dtable"><thead><tr>${head.map((h,i) => `<th class="${i ? "num" : ""}">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c,i) => `<td class="${i ? "num" : ""}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+function vizCard(title, sub, body, table){
+  return `<section class="viz"><header><div><h4>${esc(title)}</h4>${sub ? `<div class="vsub">${esc(sub)}</div>` : ""}</div>
+    <button type="button" class="vtoggle" data-vt aria-pressed="false">Tabell</button></header>
+    <div class="vbody">${body}</div><div class="vtable hide">${table}</div></section>`;
+}
+function hbarsCard(title, rows, sers, opts = {}){
+  const top = rows.slice(0, opts.n || 8), unit = opts.unit || "", max = Math.max(1, ...top.map(r => r.total));
+  const body = top.length ? top.map(r => {
+    const vis = r.vals.map((v,i) => v > 0 ? i : -1).filter(i => i >= 0);
+    const segs = vis.map((i, j) => `<span class="sg ${j === vis.length - 1 ? "last" : ""}" tabindex="0" style="flex:${r.vals[i]} 1 0%;background:${sers[i].color}" data-tip="${tipData(r.label, sers.length > 1 ? r.vals.map((v,k) => [sers[k].name, fmtNum(v) + unit, sers[k].color]) : [[sers[0].name, fmtNum(r.total) + unit, sers[0].color]])}"></span>`).join("");
+    return `<div class="hb"><div class="hl" title="${esc(r.label)}">${esc(r.label)}</div><div class="hbar"><div class="stk" style="width:calc((100% - 60px) * ${r.total / max})">${segs}</div><span class="hv">${fmtNum(r.total)}${unit}</span></div></div>`;
+  }).join("") + legendHtml(sers) : `<div class="muted">Ingen data ennå.</div>`;
+  const multi = sers.length > 1;
+  const table = tableView(["", ...sers.map(s => s.name), ...(multi ? ["Sum"] : [])], rows.map(r => [r.label, ...r.vals.map(v => fmtNum(v) + unit), ...(multi ? [fmtNum(r.total) + unit] : [])]));
+  return vizCard(title, opts.sub, body, table);
+}
+function statusCard(items){
+  const total = items.length, counts = STATUSES.map(s => ({ s, n:items.filter(p => p.status === s).length }));
+  const shown = counts.filter(x => x.n);
+  const body = total ? `<div class="sb">${shown.map((x,i) => { const c = VIZ.status[x.s], pct = x.n / total * 100;
+      return `<span class="sg ${i === 0 ? "first" : ""} ${i === shown.length - 1 ? "last" : ""}" tabindex="0" style="flex:${x.n} 1 0%;background:${c};color:${inkOn(c)}" data-tip="${tipData(x.s, [["Prosjekter", String(x.n), c], ["Andel", Math.round(pct) + " %"]])}">${pct >= 12 ? x.n : ""}</span>`; }).join("")}</div>
+    <div class="legend">${counts.map(x => `<span><i style="background:${VIZ.status[x.s]}"></i>${esc(x.s)} <b>${x.n}</b></span>`).join("")}</div>`
+    : `<div class="muted">Ingen data ennå.</div>`;
+  return vizCard("Status", "Antall prosjekter per status", body, tableView(["Status", "Antall", "Andel"], counts.map(x => [x.s, String(x.n), total ? Math.round(x.n / total * 100) + " %" : "–"])));
+}
+function colPath(x, y, w, h){ const r = Math.min(4, h, w / 2); return `M${x},${y + h}L${x},${y + r}Q${x},${y} ${x + r},${y}L${x + w - r},${y}Q${x + w},${y} ${x + w},${y + r}L${x + w},${y + h}Z`; }
+function columnsCard(title, cats, sers, data, opts = {}){
+  const W = 640, H = 230, ml = 38, mr = 8, mt = 18, mb = 30, iw = W - ml - mr, ih = H - mt - mb, n = cats.length;
+  const max = Math.max(0, ...data.flat());
+  let body;
+  if(!n || max <= 0) body = `<div class="muted">Ingen data ennå.</div>`;
+  else {
+    const raw = max / 4, p = 10 ** Math.floor(Math.log10(raw)), f = raw / p;
+    const step = (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p, top = step * Math.ceil(max / step - 1e-9);
+    const y = v => mt + ih - v / top * ih, band = iw / n;
+    const bw = Math.min(20, Math.max(5, (band - 10) / sers.length - 2)), gw = bw * sers.length + 2 * (sers.length - 1);
+    let g = "", bars = "", labs = "", hits = "", xl = "";
+    for(let v = 0; v <= top + 1e-9; v += step) g += `<line x1="${ml}" x2="${W - mr}" y1="${y(v)}" y2="${y(v)}" stroke="${v === 0 ? VIZ.base : VIZ.grid}" stroke-width="1"/><text x="${ml - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="${VIZ.muted}">${compact(v)}</text>`;
+    const every = Math.ceil(n / 12);
+    cats.forEach((c, i) => {
+      const x0 = ml + band * i + (band - gw) / 2;
+      sers.forEach((s, j) => { const v = data[j][i]; if(v > 0) bars += `<path d="${colPath(x0 + j * (bw + 2), y(v), bw, y(0) - y(v))}" fill="${s.color}"/>`; });
+      hits += `<rect class="hit" x="${ml + band * i}" y="${mt}" width="${band}" height="${ih}" tabindex="0" data-tip="${tipData(c, sers.map((s, j) => [s.name, fmtNum(data[j][i]), s.color]))}"/>`;
+      if(i % every === 0) xl += `<text x="${ml + band * (i + .5)}" y="${H - 10}" text-anchor="middle" font-size="11" fill="${VIZ.muted}">${esc(c)}</text>`;
+    });
+    sers.forEach((s, j) => {      // direkte etikett kun på høyeste søyle per serie
+      const m = Math.max(...data[j]); if(m <= 0 || n < 2) return;
+      const i = data[j].indexOf(m), x0 = ml + band * i + (band - gw) / 2 + j * (bw + 2);
+      labs += `<text x="${x0 + bw / 2}" y="${y(m) - 5}" text-anchor="middle" font-size="11" font-weight="600" fill="${VIZ.ink2}">${fmtNum(m)}</text>`;
+    });
+    body = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}" style="width:100%;height:auto;display:block">${g}${bars}${labs}${xl}${hits}</svg>${legendHtml(sers)}`;
+  }
+  const table = tableView(["", ...sers.map(s => s.name)], cats.map((c, i) => [String(c), ...sers.map((s, j) => fmtNum(data[j][i]))]));
+  return vizCard(title, opts.sub, body, table);
+}
+
+/* ---------- utvalg og aggregering ---------- */
+const yearOf = p => (p.start_date || (p.created_at || "")).slice(0, 4);
+const daysBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5);
+const fmtShort = d => d ? new Date(d + "T00:00:00").toLocaleDateString("nb-NO") : "";
+const gramsOf = p => p.project_yarns.reduce((a, y) => a + (Number(y.grams_used) || 0), 0);
+const yarnStr = p => p.project_yarns.map(y => [y.supplier, y.quality, y.color, y.lot && "lot " + y.lot].filter(Boolean).join(" ")).join(" | ");
+const statusHtml = s => `<span class="badge ${esc(s)}">${esc(s)}</span>`;
+function ensureScope(){
+  const can = allowed(); if(!can.length) return;
+  if(dscope === "all" && can.length > 1) return;
+  if(can.includes(dscope)) return;
+  dscope = can.length > 1 ? "all" : can[0];
+}
+function seriesFor(){
+  return dscope === "all"
+    ? [{ k:"strikking", name:"Strikking", color:VIZ.strikking }, { k:"hekling", name:"Hekling", color:VIZ.hekling }]
+    : [{ k:dscope, name:CRAFTS[dscope].label, color:VIZ.main[dscope] }];
+}
+function dBase(){            // håndverk, år og bruker (uten statusfilter – brukes til tellingene i filterchipsene)
+  ensureScope();
+  const can = allowed();
+  let arr = projects.filter(p => dscope === "all" ? can.includes(p.craft) : p.craft === dscope);
+  if(yearFilter) arr = arr.filter(p => yearOf(p) === yearFilter);
+  if(ownerFilter && profile.is_admin && showAll) arr = arr.filter(p => p.owner_id === ownerFilter);
+  return arr;
+}
+const dItems = () => byStatus(dBase());
+function agg(items, keyFn, valFn = () => 1, sers = seriesFor()){
+  const m = new Map();
+  items.forEach(p => {
+    const k = keyFn(p); if(k == null || k === "") return;
+    const row = m.get(k) || { label:k, vals:sers.map(() => 0) };
+    const i = sers.length === 1 ? 0 : sers.findIndex(s => s.k === p.craft);
+    if(i >= 0) row.vals[i] += Number(valFn(p)) || 0;
+    m.set(k, row);
+  });
+  return [...m.values()].map(r => ({ ...r, total:r.vals.reduce((a, b) => a + b, 0) })).sort((a, b) => b.total - a.total);
+}
+function dFilterBar(){
+  ensureScope();
+  const can = allowed(), years = [...new Set(projects.map(yearOf).filter(Boolean))].sort().reverse();
+  const ownerList = (profile.is_admin && showAll) ? Object.entries(owners).sort((a, b) => String(a[1]).localeCompare(String(b[1]), "nb")) : [];
+  const segs = can.length > 1 ? [["strikking","Strikking"], ["hekling","Hekling"], ["all","Begge samlet"]] : [];
+  return `<div class="dfilters">
+    ${segs.length ? `<div class="seg inl" id="dscope">${segs.map(([k,l]) => `<button type="button" data-s="${k}" class="${dscope === k ? "on" : ""}">${l}</button>`).join("")}</div>` : `<span class="craftlabel" style="margin:0">${CRAFTS[dscope]?.label || ""}</span>`}
+    ${filterBar(dBase())}
+    <select id="dyear" aria-label="År"><option value="">Alle år</option>${years.map(y => `<option ${y === yearFilter ? "selected" : ""}>${y}</option>`).join("")}</select>
+    ${ownerList.length ? `<select id="downer" aria-label="Bruker"><option value="">Alle brukere</option>${ownerList.map(([id, n]) => `<option value="${id}" ${id === ownerFilter ? "selected" : ""}>${esc(n)}</option>`).join("")}</select>` : ""}
+  </div>`;
+}
+function dBind(root, rerender){
+  root.querySelectorAll("#dscope button").forEach(b => b.onclick = () => { dscope = b.dataset.s; rerender(); });
+  const y = root.querySelector("#dyear"); if(y) y.onchange = () => { yearFilter = y.value; rerender(); };
+  const o = root.querySelector("#downer"); if(o) o.onchange = () => { ownerFilter = o.value; rerender(); };
+  bindFilter(root, rerender);
+}
+
+/* ---------- tabeller (sortering, CSV, utskrift) ---------- */
+function sortedRows(rows, st){
+  if(!st || !st.k) return rows;
+  const empty = v => v == null || v === "";
+  return [...rows].sort((a, b) => {
+    const x = a[st.k], y = b[st.k];
+    if(empty(x) || empty(y)) return empty(x) === empty(y) ? 0 : empty(x) ? 1 : -1;     // tomme verdier sist
+    const c = (typeof x === "number" && typeof y === "number") ? x - y : String(x).localeCompare(String(y), "nb", { numeric:true });
+    return c * st.dir;
+  });
+}
+const cellText = (c, row) => c.fmt ? c.fmt(row[c.k], row) : (row[c.k] ?? "");
+function dataTable(cols, rows, st, opts = {}){
+  const limit = opts.limit || 500;
+  return `<div class="tw"><table class="dtable"><thead><tr>${cols.map(c => `<th ${opts.noSort ? "" : `data-k="${c.k}"`} class="${c.num ? "num" : ""} ${st.k === c.k ? "sorted" : ""}">${esc(c.l)}${st.k === c.k ? (st.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr></thead>
+    <tbody>${rows.slice(0, limit).map(r => `<tr ${r.id ? `data-id="${esc(r.id)}"` : ""}>${cols.map(c => `<td class="${c.num ? "num" : ""}">${c.html ? c.html(r) : esc(cellText(c, r))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+    ${rows.length > limit ? `<div class="muted" style="margin-top:6px">Viser ${limit} av ${rows.length} rader. Last ned CSV for alle.</div>` : ""}`;
+}
+function mountTable(el, cols, rows, st, opts = {}){
+  const draw = () => {
+    el.innerHTML = dataTable(cols, sortedRows(rows, st), st, opts);
+    el.querySelectorAll("th[data-k]").forEach(th => th.onclick = () => { st.dir = st.k === th.dataset.k ? -st.dir : 1; st.k = th.dataset.k; draw(); });
+    if(opts.onRow) el.querySelectorAll("tr[data-id]").forEach(tr => tr.onclick = () => opts.onRow(tr.dataset.id));
+  };
+  draw();
+}
+function tableCsv(cols, rows, name){
+  const q = x => `"${String(x ?? "").replace(/"/g, '""')}"`;
+  const csv = [cols.map(c => q(c.l)).join(";"), ...rows.map(r => cols.map(c => q(cellText(c, r))).join(";"))].join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type:"text/csv;charset=utf-8" }));
+  a.download = name; a.click();
+}
+function printTable(title, cols, rows){
+  const area = $("printArea");
+  area.innerHTML = `<div class="pbrand">Maskeminner</div><h1>${esc(title)}</h1><div class="psub">${rows.length} rader · ${new Date().toLocaleDateString("nb-NO")}</div>
+    <table class="pt grid"><thead><tr>${cols.map(c => `<th>${esc(c.l)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${cols.map(c => `<td>${esc(cellText(c, r))}</td>`).join("")}</tr>`).join("")}</tbody></table>
+    <div class="pfoot">Maskeminner</div>`;
+  const old = document.title; document.title = "Maskeminner - " + title;
+  window.addEventListener("afterprint", () => { document.title = old; area.innerHTML = ""; }, { once:true });
+  window.print();
+}
+function projRow(p){
+  return { id:p.id, name:p.name, craftL:CRAFTS[p.craft].label, status:p.status, owner:owners[p.owner_id] || "", gift_to:p.gift_to, designer:p.designer,
+    item_type:p.item_type, technique:p.technique, tool:p.needle_size || p.hook_size, start_date:p.start_date, end_date:p.end_date,
+    days:(p.start_date && p.end_date) ? daysBetween(p.start_date, p.end_date) : null, hours:p.hours_spent != null ? Number(p.hours_spent) : null,
+    grams:gramsOf(p) || null, yarns:yarnStr(p), recipe:p.recipe_path ? "Ja" : "", photos:p.project_photos.length, updated:p.updated_at };
+}
+const numFmt = v => v == null ? "" : fmtNum(v);
+
+/* ---------- skall ---------- */
+const DTITLES = { dashboard:"Dashboard", reports:"Rapporter", projects:"Prosjekter", users:"Brukere og tilgang", lists:"Valglister", settings:"Oppsett", profile:"Profil" };
+function renderDesktop(){
+  const can = allowed(), admin = !!profile?.is_admin;
+  if(!can.length && !["profile", "users", "lists", "settings"].includes(dtab)) dtab = "profile";
+  if(["users", "lists", "settings"].includes(dtab) && !admin) dtab = "dashboard";
+  if(dtab === "edit" && !formState) dtab = "projects";
+  ensureScope(); applyCraft();
+  const c = CRAFTS[craft], eff = (dtab === "edit" && editing) ? "projects" : dtab;
+  const nv = (id, ic, l) => `<button type="button" class="dnav ${eff === id ? "on" : ""}" data-d="${id}"><span class="ic">${ic}</span>${l}</button>`;
+  const title = dtab === "edit" ? (editing ? `Rediger ${c.noun}` : `Nytt ${c.noun}`) : DTITLES[dtab];
+  $app.innerHTML = `<div class="dshell">
+    <aside class="dside">
+      <div class="dbrand">🧶 Maskeminner</div>
+      ${can.length ? `<div class="dlabel">Aktivt håndverk</div>${can.length > 1 && dtab !== "edit" ? `<div class="seg" id="craftseg">${can.map(k => `<button type="button" data-c="${k}" class="${k === craft ? "on" : ""}">${CRAFTS[k].label}</button>`).join("")}</div>` : `<div class="craftlabel">${c.label}</div>`}
+        <div class="dlabel">Analyse</div>${nv("dashboard", "📈", "Dashboard")}${nv("reports", "🗂️", "Rapporter")}
+        <div class="dlabel">Arbeid</div>${nv("projects", "📋", "Prosjekter")}
+        <button type="button" class="dnav new ${dtab === "edit" && !editing ? "on" : ""}" data-d="new"><span class="ic">➕</span>Nytt prosjekt</button>` : ""}
+      ${admin ? `<div class="dlabel">Administrasjon</div>${nv("users", "👥", "Brukere og tilgang")}${nv("lists", "📝", "Valglister")}${nv("settings", "⚙️", "Oppsett")}` : ""}
+      <div class="dlabel">Konto</div>${nv("profile", "👤", "Profil")}
+      <div class="dfoot"><div>${esc(profile?.display_name || "")} ${admin ? `<span class="badge admin">Admin</span>` : ""}</div>
+        <button type="button" class="link" id="tomobile">📱 Bytt til mobilvisning</button><button type="button" class="link" id="dout">Logg ut</button></div>
+    </aside>
+    <div class="dmain">
+      <div class="dtop"><h1>${esc(title)}</h1><span class="grow"></span>
+        ${admin && ["dashboard", "reports", "projects"].includes(dtab) ? `<div class="seg inl" id="dshow"><button type="button" data-s="0" class="${!showAll ? "on" : ""}">Mine data</button><button type="button" data-s="1" class="${showAll ? "on" : ""}">Alle brukere</button></div>` : ""}</div>
+      <div id="flash"></div><div id="view"></div>
+    </div></div>`;
+  $app.querySelectorAll(".dnav").forEach(b => b.onclick = () => { const d = b.dataset.d; if(d === "new") openEditor(null); else { dtab = d; render(); } });
+  $app.querySelectorAll("#craftseg button").forEach(b => b.onclick = () => { craft = b.dataset.c; store.set("craft", craft); render(); });
+  $app.querySelectorAll("#dshow button").forEach(b => b.onclick = async () => { showAll = b.dataset.s === "1"; if(!showAll) ownerFilter = ""; await loadProjects(); render(); });
+  $("tomobile").onclick = () => { layoutPref = "mobile"; store.set("layout", "mobile"); render(); };
+  $("dout").onclick = () => sb.auth.signOut();
+  ({ dashboard:dvDashboard, reports:dvReports, projects:dvProjects, edit:viewEdit, users:dvUsers, lists:dvLists, settings:dvSettings, profile:viewProfile })[dtab]();
+}
+
+/* ---------- prosjekter (tabell) ---------- */
+function projCols(){
+  const hek = craft === "hekling";
+  return [
+    { k:"name", l:"Prosjekt", html:r => `<b>${esc(r.name)}</b>` },
+    { k:"status", l:"Status", html:r => statusHtml(r.status) },
+    ...(hek ? [{ k:"item_type", l:"Type" }, { k:"technique", l:"Teknikk" }] : []),
+    { k:"gift_to", l:"Gave til" },
+    ...(!hek ? [{ k:"designer", l:"Designer" }] : []),
+    { k:"tool", l:hek ? "Heklenål" : "Pinne" },
+    ...(hek ? [{ k:"hours", l:"Timer", num:true, fmt:numFmt }] : []),
+    { k:"start_date", l:"Start", fmt:fmtShort }, { k:"end_date", l:"Slutt", fmt:fmtShort },
+    { k:"grams", l:"Gram", num:true, fmt:numFmt },
+    { k:"yarns", l:"Garn" },
+    ...(showAll ? [{ k:"owner", l:"Eier" }] : []),
+    { k:"photos", l:"Bilder", num:true, fmt:v => v || "" },
+    { k:"recipe", l:"PDF" }
+  ];
+}
+const currentProjRows = () => byStatus(craftProjects().filter(matchesSearch)).map(projRow);
+function dvProjects(){
+  const v = $("view"), c = CRAFTS[craft];
+  v.innerHTML = `<div class="dtool">
+    <div class="searchbox inl"><span class="mg">🔍</span><input id="q" inputmode="search" autocomplete="off" aria-label="Søk" placeholder="Søk i ${c.plural} (trykk / for å søke)" value="${esc(search)}"><button type="button" id="qx" class="${search ? "" : "hide"}" aria-label="Tøm søk">×</button></div>
+    <div id="chipsWrap"></div><span class="grow"></span><span id="resinfo" class="muted"></span>
+    <button type="button" class="sec" id="pcsv">⬇️ CSV</button><button type="button" id="pnew">+ Nytt ${c.noun}</button></div>
+    <div id="ptable"></div>`;
+  const q = $("q"), qx = $("qx");
+  q.oninput = () => { search = q.value; qx.classList.toggle("hide", !search); drawProjTable(); };
+  qx.onclick = () => { search = ""; q.value = ""; qx.classList.add("hide"); drawProjTable(); q.focus(); };
+  $("pnew").onclick = () => openEditor(null);
+  $("pcsv").onclick = () => tableCsv(projCols(), sortedRows(currentProjRows(), projSort), `maskeminner-${craft}.csv`);
+  drawProjTable();
+}
+function drawProjTable(){
+  const all = craftProjects(), base = all.filter(matchesSearch);
+  $("chipsWrap").innerHTML = filterBar(base); bindFilter($("chipsWrap"), drawProjTable);
+  const rows = byStatus(base).map(projRow), el = $("ptable");
+  $("resinfo").textContent = `${rows.length} av ${all.length}`;
+  if(!rows.length){ el.innerHTML = `<div class="card muted" style="text-align:center">${all.length ? "Ingen treff." : `Ingen ${CRAFTS[craft].plural} ennå.`}</div>`; return; }
+  mountTable(el, projCols(), rows, projSort, { onRow:id => openEditor(projects.find(p => p.id === id)) });
+}
+
+/* ---------- dashboards ---------- */
+function dvDashboard(){
+  const v = $("view");
+  const tabs = [["overview", "Oversikt"], ["yarn", "Garn"], ["progress", "Framdrift"]];
+  if(dscope !== "strikking" && allowed().includes("hekling")) tabs.push(["crochet", "Hekling"]);
+  if(profile.is_admin) tabs.push(["users", "Brukere"]);
+  if(!tabs.some(t => t[0] === dashTab)) dashTab = "overview";
+  v.innerHTML = `${dFilterBar()}<div class="dtabs">${tabs.map(([k, l]) => `<button type="button" data-t="${k}" class="${dashTab === k ? "on" : ""}">${l}</button>`).join("")}</div><div id="dash"></div>`;
+  dBind(v, dvDashboard);
+  v.querySelectorAll(".dtabs button").forEach(b => b.onclick = () => { dashTab = b.dataset.t; dvDashboard(); });
+  ({ overview:dOverview, yarn:dYarn, progress:dProgress, crochet:dCrochet, users:dUsersDash })[dashTab]($("dash"));
+}
+const sumYarns = items => items.reduce((a, p) => a + gramsOf(p), 0);
+const yarnLines = items => items.flatMap(p => p.project_yarns.map(y => ({ ...y, craft:p.craft, pname:p.name, owner:owners[p.owner_id] || "" })));
+function dOverview(el){
+  const items = dItems(), sers = seriesFor(), done = items.filter(p => p.status === "ferdig");
+  const dd = done.filter(p => p.start_date && p.end_date).map(p => daysBetween(p.start_date, p.end_date));
+  const hek = items.filter(p => p.craft === "hekling"), yarns = yarnLines(items);
+  const tiles = [
+    tile("Prosjekter", items.length),
+    tile("Ferdige", done.length, items.length ? Math.round(done.length / items.length * 100) + " % av utvalget" : ""),
+    tile("Pågår", items.filter(p => p.status === "pågår").length, items.filter(p => p.status === "pause").length + " på pause"),
+    tile("Garn brukt", fmtNum(sumYarns(items)) + " g"),
+    tile("Snitt dager til ferdig", dd.length ? Math.round(dd.reduce((a, b) => a + b, 0) / dd.length) : "–")
+  ];
+  if(hek.length) tiles.push(tile("Timer brukt (hekling)", fmtNum(hek.reduce((a, p) => a + (Number(p.hours_spent) || 0), 0))));
+  const yr = agg(items, yearOf).sort((a, b) => String(a.label).localeCompare(String(b.label)));
+  el.innerHTML = `<div class="tiles">${tiles.join("")}</div><div class="grid2">
+    ${statusCard(items)}
+    ${columnsCard("Prosjekter per startår", yr.map(r => r.label), sers, sers.map((s, i) => yr.map(r => r.vals[i])), { sub:"Antall prosjekter" })}
+    ${hbarsCard("Gaver til", agg(items, p => p.gift_to), sers, { sub:"Antall prosjekter" })}
+    ${hbarsCard("Designere", agg(items, p => p.designer), sers, { sub:"Antall prosjekter" })}
+    ${hbarsCard("Garn leverandør", agg(yarns, y => y.supplier, y => y.grams_used), sers, { unit:" g", sub:"Gram brukt" })}
+    ${hbarsCard("Garn kvalitet", agg(yarns, y => y.quality, y => y.grams_used), sers, { unit:" g", sub:"Gram brukt" })}
+  </div>`;
+}
+function dYarn(el){
+  const items = dItems(), sers = seriesFor(), yarns = yarnLines(items);
+  const distinct = fn => new Set(yarns.map(fn).filter(Boolean)).size;
+  const g = new Map();
+  yarns.forEach(y => {
+    const k = [y.supplier, y.quality, y.color, y.lot].join("|");
+    const r = g.get(k) || { supplier:y.supplier || "", quality:y.quality || "", color:y.color || "", lot:y.lot || "", grams:0, projects:new Set() };
+    r.grams += Number(y.grams_used) || 0; r.projects.add(y.pname); g.set(k, r);
+  });
+  const rows = [...g.values()].map(r => ({ ...r, grams:r.grams || null, n:r.projects.size }));
+  const cols = [{ k:"supplier", l:"Leverandør" }, { k:"quality", l:"Kvalitet" }, { k:"color", l:"Farge" }, { k:"lot", l:"Lot" }, { k:"n", l:"Prosjekter", num:true }, { k:"grams", l:"Gram", num:true, fmt:numFmt }];
+  el.innerHTML = `<div class="tiles">${tile("Garnlinjer", yarns.length)}${tile("Leverandører", distinct(y => y.supplier))}${tile("Kvaliteter", distinct(y => y.supplier + "|" + y.quality))}${tile("Lot", distinct(y => y.lot))}${tile("Gram totalt", fmtNum(sumYarns(items)) + " g")}</div>
+    <div class="grid2">
+      ${hbarsCard("Gram per leverandør", agg(yarns, y => y.supplier, y => y.grams_used), sers, { unit:" g" })}
+      ${hbarsCard("Gram per kvalitet", agg(yarns, y => y.quality, y => y.grams_used), sers, { unit:" g" })}
+    </div>
+    <h2 style="margin-top:22px">Garn i bruk</h2><div id="ytable"></div>`;
+  mountTable($("ytable"), cols, rows, yarnSort);
+}
+function dProgress(el){
+  const items = dItems(), now = new Date(), months = [];
+  for(let i = 11; i >= 0; i--){ const d = new Date(now.getFullYear(), now.getMonth() - i, 1); months.push(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")); }
+  const started = months.map(m => items.filter(p => (p.start_date || "").slice(0, 7) === m).length);
+  const finished = months.map(m => items.filter(p => p.status === "ferdig" && (p.end_date || "").slice(0, 7) === m).length);
+  const c0 = dscope === "all" ? ["#86b6ef", "#184f95"] : [mix(VIZ.main[dscope], .5), VIZ.main[dscope]];
+  const ms = [{ name:"Startet", color:c0[0] }, { name:"Ferdigstilt", color:c0[1] }];
+  const lab = months.map(m => MONTHS[+m.slice(5) - 1] + (m.endsWith("-01") || m === months[0] ? " " + m.slice(2, 4) : ""));
+  const byYear = new Map();
+  items.filter(p => p.status === "ferdig" && p.start_date && p.end_date).forEach(p => { const y = p.end_date.slice(0, 4); (byYear.get(y) || byYear.set(y, []).get(y)).push(daysBetween(p.start_date, p.end_date)); });
+  const years = [...byYear.keys()].sort();
+  const avg1 = [{ name:"Snitt dager", color:dscope === "all" ? VIZ.hekling : VIZ.main[dscope] }];
+  const today = new Date().toISOString().slice(0, 10);
+  const open = items.filter(p => (p.status === "pågår" || p.status === "pause") && p.start_date).map(p => ({ ...projRow(p), days:daysBetween(p.start_date, today) })).filter(r => r.days >= 60);
+  const cols = [{ k:"name", l:"Prosjekt", html:r => `<b>${esc(r.name)}</b>` }, ...(dscope === "all" ? [{ k:"craftL", l:"Håndverk" }] : []), { k:"status", l:"Status", html:r => statusHtml(r.status) },
+    ...(showAll ? [{ k:"owner", l:"Eier" }] : []), { k:"start_date", l:"Start", fmt:fmtShort }, { k:"days", l:"Dager siden start", num:true }];
+  el.innerHTML = `<div class="grid2">
+      ${columnsCard("Startet og ferdigstilt per måned", lab, ms, [started, finished], { sub:"Siste 12 måneder" })}
+      ${columnsCard("Snitt dager til ferdig", years, avg1, [years.map(y => Math.round(byYear.get(y).reduce((a, b) => a + b, 0) / byYear.get(y).length))], { sub:"Per ferdigstillelsesår" })}
+    </div>
+    <h2 style="margin-top:22px">Pågående eller på pause i mer enn 60 dager (${open.length})</h2>
+    ${open.length ? `<div id="stalled"></div>` : `<div class="muted">Ingen – godt jobbet!</div>`}`;
+  if(open.length) mountTable($("stalled"), cols, open, stalledSort, { onRow:id => openEditor(projects.find(p => p.id === id)) });
+}
+function dCrochet(el){
+  const items = dItems().filter(p => p.craft === "hekling"), s1 = [{ k:"hekling", name:"Hekling", color:VIZ.main.hekling }];
+  const hrs = items.reduce((a, p) => a + (Number(p.hours_spent) || 0), 0), withH = items.filter(p => p.hours_spent != null);
+  el.innerHTML = `<div class="tiles">${tile("Hekleprosjekter", items.length)}${tile("Timer brukt", fmtNum(hrs))}${tile("Snitt timer per prosjekt", withH.length ? fmtNum(hrs / withH.length) : "–")}${tile("Garn brukt", fmtNum(sumYarns(items)) + " g")}</div>
+    ${dscope === "all" ? `<div class="muted" style="margin-bottom:10px">Viser kun hekleprosjekter i utvalget.</div>` : ""}
+    <div class="grid2">
+      ${hbarsCard("Type", agg(items, p => p.item_type, () => 1, s1), s1, { sub:"Antall prosjekter" })}
+      ${hbarsCard("Teknikk", agg(items, p => p.technique, () => 1, s1), s1, { sub:"Antall prosjekter" })}
+      ${hbarsCard("Timer per type", agg(items, p => p.item_type, p => p.hours_spent, s1), s1, { unit:" t", sub:"Sum timer brukt" })}
+      ${hbarsCard("Heklenål (mm)", agg(items, p => p.hook_size, () => 1, s1), s1, { sub:"Antall prosjekter" })}
+      ${hbarsCard("Mest tidkrevende prosjekter", agg(withH, p => p.name, p => p.hours_spent, s1), s1, { unit:" t", n:10, sub:"Timer brukt" })}
+    </div>`;
+}
+async function loadUserRows(){
+  const { data } = await sb.from("profiles").select("*").order("created_at", { ascending:true });
+  userRows = data || [];
+}
+async function dUsersDash(el){
+  if(!showAll){
+    el.innerHTML = `<div class="msg info">Brukeroversikten bygger på alle brukeres prosjekter. <button type="button" class="sec" id="showall" style="margin-left:8px">Vis alle brukere</button></div>`;
+    $("showall").onclick = async () => { showAll = true; await loadProjects(); render(); };
+    return;
+  }
+  el.innerHTML = `<div class="muted">Laster …</div>`;
+  await loadUserRows();
+  if(dashTab !== "users" || dtab !== "dashboard") return;
+  const items = dItems(), sers = seriesFor(), act = new Set(projects.filter(p => Date.now() - new Date(p.updated_at) < 30 * 864e5).map(p => p.owner_id));
+  const yarns = yarnLines(items);
+  el.innerHTML = `<div class="tiles">${tile("Brukere", userRows.length)}${tile("Venter på tilgang", userRows.filter(isPending).length)}${tile("Administratorer", userRows.filter(u => u.is_admin).length)}${tile("Aktive siste 30 dager", act.size)}</div>
+    <div class="grid2">
+      ${hbarsCard("Prosjekter per bruker", agg(items, p => owners[p.owner_id] || "Ukjent"), sers, { n:10, sub:"Antall prosjekter" })}
+      ${hbarsCard("Ferdige prosjekter per bruker", agg(items.filter(p => p.status === "ferdig"), p => owners[p.owner_id] || "Ukjent"), sers, { n:10, sub:"Antall ferdige" })}
+      ${hbarsCard("Garn brukt per bruker", agg(yarns, y => y.owner || "Ukjent", y => y.grams_used), sers, { unit:" g", n:10, sub:"Gram" })}
+    </div>`;
+}
+
+/* ---------- rapportutvalg ---------- */
+function repDefs(){
+  const d = [
+    { id:"overview", t:"Prosjektoversikt", d:"Alle prosjekter i utvalget" },
+    { id:"yarn", t:"Garnforbruk", d:"Gram og prosjekter per leverandør og kvalitet" },
+    { id:"lots", t:"Garn per lot", d:"Sporbarhet: farge og lot per prosjekt" },
+    { id:"done", t:"Ferdige prosjekter", d:"Dager og timer brukt per ferdig prosjekt" },
+    { id:"open", t:"Pågående og pause", d:"Hvor lenge prosjekter har stått" },
+    { id:"gifts", t:"Gaveoversikt", d:"Hvem har fått hva" }
+  ];
+  if(profile.is_admin) d.push({ id:"users", t:"Brukeraktivitet", d:"Prosjekter og garn per bruker" }, { id:"access", t:"Tilgangsoversikt", d:"Hvem har tilgang til hva" });
+  return d;
+}
+async function repBuild(id){
+  const items = dItems(), many = dscope === "all", hek = items.some(p => p.craft === "hekling"), today = new Date().toISOString().slice(0, 10);
+  const nameCol = { k:"name", l:"Prosjekt", html:r => `<b>${esc(r.name)}</b>` }, craftCol = many ? [{ k:"craftL", l:"Håndverk" }] : [];
+  const statusCol = { k:"status", l:"Status", html:r => statusHtml(r.status) }, ownerCol = showAll ? [{ k:"owner", l:"Eier" }] : [];
+  const dateCols = [{ k:"start_date", l:"Start", fmt:fmtShort }, { k:"end_date", l:"Slutt", fmt:fmtShort }];
+  if(id === "overview") return {
+    cols:[nameCol, ...craftCol, statusCol, ...ownerCol, { k:"gift_to", l:"Gave til" }, { k:"designer", l:"Designer" },
+      ...(hek ? [{ k:"item_type", l:"Type" }, { k:"technique", l:"Teknikk" }] : []), { k:"tool", l:"Pinne / heklenål" }, ...dateCols,
+      { k:"days", l:"Dager", num:true }, ...(hek ? [{ k:"hours", l:"Timer", num:true, fmt:numFmt }] : []),
+      { k:"grams", l:"Gram garn", num:true, fmt:numFmt }, { k:"yarns", l:"Garn" }, { k:"recipe", l:"Oppskrift" }],
+    rows:items.map(projRow) };
+  if(id === "yarn" || id === "lots"){
+    const g = new Map();
+    yarnLines(items).forEach(y => {
+      const k = id === "yarn" ? [y.supplier, y.quality].join("|") : [y.supplier, y.quality, y.color, y.lot].join("|");
+      const r = g.get(k) || { supplier:y.supplier || "", quality:y.quality || "", color:y.color || "", lot:y.lot || "", lines:0, grams:0, projects:new Set(), lots:new Set() };
+      r.lines++; r.grams += Number(y.grams_used) || 0; r.projects.add(y.pname); if(y.lot) r.lots.add(y.lot); g.set(k, r);
+    });
+    const rows = [...g.values()].map(r => ({ ...r, grams:r.grams || null, n:r.projects.size, nlots:r.lots.size, names:[...r.projects].join(", ") }));
+    return id === "yarn"
+      ? { cols:[{ k:"supplier", l:"Leverandør" }, { k:"quality", l:"Kvalitet" }, { k:"lines", l:"Garnlinjer", num:true }, { k:"n", l:"Prosjekter", num:true }, { k:"nlots", l:"Lot", num:true }, { k:"grams", l:"Gram", num:true, fmt:numFmt }], rows }
+      : { cols:[{ k:"supplier", l:"Leverandør" }, { k:"quality", l:"Kvalitet" }, { k:"color", l:"Farge" }, { k:"lot", l:"Lot" }, { k:"names", l:"Prosjekter" }, { k:"grams", l:"Gram", num:true, fmt:numFmt }], rows };
+  }
+  if(id === "done") return {
+    cols:[nameCol, ...craftCol, ...ownerCol, { k:"gift_to", l:"Gave til" }, ...dateCols, { k:"days", l:"Dager", num:true }, ...(hek ? [{ k:"hours", l:"Timer", num:true, fmt:numFmt }] : []), { k:"grams", l:"Gram garn", num:true, fmt:numFmt }],
+    rows:items.filter(p => p.status === "ferdig").map(projRow) };
+  if(id === "open") return {
+    cols:[nameCol, ...craftCol, statusCol, ...ownerCol, { k:"start_date", l:"Start", fmt:fmtShort }, { k:"since", l:"Dager siden start", num:true }, { k:"updated", l:"Sist endret", fmt:v => (v || "").slice(0, 10).split("-").reverse().join(".") }],
+    rows:items.filter(p => p.status === "pågår" || p.status === "pause").map(p => ({ ...projRow(p), since:p.start_date ? daysBetween(p.start_date, today) : null })) };
+  if(id === "gifts"){
+    const g = new Map();
+    items.filter(p => p.gift_to).forEach(p => { const r = g.get(p.gift_to) || { gift_to:p.gift_to, n:0, names:[], last:"" }; r.n++; r.names.push(p.name); if((p.end_date || "") > r.last) r.last = p.end_date || ""; g.set(p.gift_to, r); });
+    return { cols:[{ k:"gift_to", l:"Gave til" }, { k:"n", l:"Antall", num:true }, { k:"names", l:"Prosjekter" }, { k:"last", l:"Siste ferdig", fmt:fmtShort }], rows:[...g.values()].map(r => ({ ...r, names:r.names.join(", ") })) };
+  }
+  if(id === "users"){
+    if(!showAll) return { notice:"Rapporten bygger på alle brukeres prosjekter. Velg «Alle brukere» øverst til høyre." };
+    const g = new Map();
+    items.forEach(p => { const k = p.owner_id, r = g.get(k) || { owner:owners[k] || "Ukjent", knit:0, croc:0, done:0, grams:0, last:"" };
+      if(p.craft === "strikking") r.knit++; else r.croc++; if(p.status === "ferdig") r.done++; r.grams += gramsOf(p); if((p.updated_at || "") > r.last) r.last = p.updated_at || ""; g.set(k, r); });
+    return { cols:[{ k:"owner", l:"Bruker" }, { k:"knit", l:"Strikking", num:true }, { k:"croc", l:"Hekling", num:true }, { k:"done", l:"Ferdige", num:true }, { k:"grams", l:"Gram garn", num:true, fmt:numFmt }, { k:"last", l:"Sist endret", fmt:v => (v || "").slice(0, 10).split("-").reverse().join(".") }], rows:[...g.values()] };
+  }
+  if(id === "access"){
+    await loadUserRows();
+    const yn = v => v ? "Ja" : "";
+    return { cols:[{ k:"name", l:"Bruker" }, { k:"email", l:"E-post" }, { k:"knit", l:"Strikking" }, { k:"croc", l:"Hekling" }, { k:"adm", l:"Administrator" }, { k:"reg", l:"Registrert", fmt:v => (v || "").slice(0, 10).split("-").reverse().join(".") }],
+      rows:userRows.map(u => ({ name:u.display_name, email:u.email, knit:yn(u.is_admin || u.access_knit), croc:yn(u.is_admin || u.access_crochet), adm:yn(u.is_admin), reg:u.created_at })) };
+  }
+  return { notice:"Ukjent rapport." };
+}
+function dvReports(){
+  const v = $("view"), defs = repDefs();
+  if(!defs.some(d => d.id === repId)) repId = defs[0].id;
+  v.innerHTML = `${dFilterBar()}<div class="repwrap"><nav class="replist" aria-label="Rapporter">${defs.map(d => `<button type="button" class="${d.id === repId ? "on" : ""}" data-r="${d.id}"><b>${esc(d.t)}</b><span>${esc(d.d)}</span></button>`).join("")}</nav><div id="repmain"></div></div>`;
+  dBind(v, dvReports);
+  v.querySelectorAll(".replist button").forEach(b => b.onclick = () => { repId = b.dataset.r; repSort = { k:null, dir:1 }; dvReports(); });
+  drawReport();
+}
+async function drawReport(){
+  const el = $("repmain"), def = repDefs().find(d => d.id === repId), myId = repId;
+  el.innerHTML = `<div class="muted">Laster …</div>`;
+  let r;
+  try{ r = await repBuild(myId); }catch(e){ el.innerHTML = `<div class="msg err">${esc(e.message || e)}</div>`; return; }
+  if(myId !== repId || !$("repmain")) return;
+  if(r.notice){ el.innerHTML = `<div class="msg info">${esc(r.notice)}</div>`; return; }
+  el.innerHTML = `<div class="reptools"><div><h2 style="margin:0">${esc(def.t)}</h2><div class="muted">${esc(def.d)} · ${r.rows.length} rader</div></div><span class="grow"></span>
+    <button type="button" class="sec" id="rcsv">⬇️ CSV</button><button type="button" class="sec" id="rprint">🖨️ Skriv ut</button></div><div id="rtable"></div>`;
+  mountTable($("rtable"), r.cols, r.rows, repSort);
+  $("rcsv").onclick = () => tableCsv(r.cols, sortedRows(r.rows, repSort), `maskeminner-${myId}.csv`);
+  $("rprint").onclick = () => printTable(def.t, r.cols, sortedRows(r.rows, repSort));
+}
+
+/* ---------- administrasjon: brukere og tilgang ---------- */
+async function dvUsers(){
+  const v = $("view");
+  v.innerHTML = `<div class="muted">Laster …</div>`;
+  const [pr, pj] = await Promise.all([
+    sb.from("profiles").select("*").order("created_at", { ascending:true }),
+    sb.from("projects").select("owner_id,craft,status,updated_at,item_type,technique,project_yarns(grams_used)")
+  ]);
+  if(pr.error){ v.innerHTML = `<div class="msg err">${esc(pr.error.message)}</div>`; return; }
+  userRows = pr.data || []; adminStats = pj.data || [];
+  selUsers = new Set([...selUsers].filter(id => userRows.some(u => u.id === id)));
+  v.innerHTML = `<div class="tiles">${tile("Brukere", userRows.length)}${tile("Venter på tilgang", userRows.filter(isPending).length, "uten noen tilgang")}${tile("Med strikking", userRows.filter(u => u.is_admin || u.access_knit).length)}${tile("Med hekling", userRows.filter(u => u.is_admin || u.access_crochet).length)}${tile("Administratorer", userRows.filter(u => u.is_admin).length)}</div>
+    <div class="dtool"><div class="searchbox inl"><span class="mg">🔍</span><input id="uq" autocomplete="off" aria-label="Søk bruker" placeholder="Søk på navn eller e-post" value="${esc(userQuery)}"></div>
+      <button type="button" class="chip ${onlyPending ? "on" : ""}" id="upend">Kun ventende</button><span class="grow"></span><span class="muted" id="usel"></span>
+      <button type="button" class="sec" data-b="k1">Gi strikking</button><button type="button" class="sec" data-b="c1">Gi hekling</button><button type="button" class="sec" data-b="kc1">Gi begge</button>
+      <button type="button" class="danger" data-b="k0">Fjern strikking</button><button type="button" class="danger" data-b="c0">Fjern hekling</button></div>
+    <div id="utable"></div>
+    <p class="muted">Administratorer har alltid tilgang til begge håndverk og kan se og slette alle prosjekter. Merk av brukere for å endre tilgang for flere samtidig.</p>`;
+  $("uq").oninput = e => { userQuery = e.target.value; drawUserTable(); };
+  $("upend").onclick = () => { onlyPending = !onlyPending; $("upend").classList.toggle("on", onlyPending); drawUserTable(); };
+  v.querySelectorAll("[data-b]").forEach(b => b.onclick = () => bulkAccess(b.dataset.b));
+  drawUserTable();
+}
+function userStats(id){
+  const rows = (adminStats || []).filter(p => p.owner_id === id);
+  return { knit:rows.filter(p => p.craft === "strikking").length, croc:rows.filter(p => p.craft === "hekling").length, last:rows.reduce((m, p) => (p.updated_at || "") > m ? p.updated_at : m, "") };
+}
+function drawUserTable(){
+  const rows = userRows.filter(u => (!onlyPending || isPending(u)) && (!userQuery || norm((u.display_name || "") + " " + (u.email || "")).includes(norm(userQuery))))
+    .sort((a, b) => (isPending(b) - isPending(a)) || String(a.display_name).localeCompare(String(b.display_name), "nb"));
+  const sel = rows.filter(u => !u.is_admin), allSel = sel.length && sel.every(u => selUsers.has(u.id));
+  const cb = (f, u, checked, dis) => `<input type="checkbox" data-f="${f}" aria-label="${f}" ${checked ? "checked" : ""} ${dis ? "disabled" : ""}>`;
+  $("utable").innerHTML = rows.length ? `<div class="tw"><table class="dtable"><thead><tr><th><input type="checkbox" id="uall" aria-label="Velg alle" ${allSel ? "checked" : ""}></th><th>Bruker</th><th>Registrert</th><th>Strikking</th><th>Hekling</th><th>Admin</th><th class="num">Strikke-prosjekt</th><th class="num">Hekle-prosjekt</th><th>Siste aktivitet</th></tr></thead><tbody>
+    ${rows.map(u => { const st = userStats(u.id), self = u.id === me.id;
+      return `<tr data-uid="${u.id}"><td><input type="checkbox" class="usel" ${selUsers.has(u.id) ? "checked" : ""} ${u.is_admin ? "disabled" : ""} aria-label="Velg ${esc(u.display_name || "")}"></td>
+      <td><b>${esc(u.display_name || "(uten navn)")}</b>${self ? " (deg)" : ""} ${u.is_admin ? `<span class="badge admin">Admin</span>` : ""}${isPending(u) ? `<span class="badge wait">Venter på tilgang</span>` : ""}<br><span class="muted">${esc(u.email || "")}</span></td>
+      <td>${fmtShort((u.created_at || "").slice(0, 10))}</td>
+      <td>${cb("access_knit", u, u.is_admin || u.access_knit, u.is_admin)}</td><td>${cb("access_crochet", u, u.is_admin || u.access_crochet, u.is_admin)}</td><td>${cb("is_admin", u, u.is_admin, self)}</td>
+      <td class="num">${st.knit}</td><td class="num">${st.croc}</td><td>${fmtShort((st.last || "").slice(0, 10))}</td></tr>`; }).join("")}
+    </tbody></table></div>` : `<div class="card muted" style="text-align:center">Ingen brukere funnet.</div>`;
+  const t = $("utable");
+  t.querySelectorAll("input[data-f]").forEach(c => c.onchange = async () => {
+    const { error } = await sb.from("profiles").update({ [c.dataset.f]: c.checked }).eq("id", c.closest("tr").dataset.uid);
+    if(error){ c.checked = !c.checked; return flash(error.message, "err"); }
+    flash("Lagret ✔"); dvUsers();
+  });
+  t.querySelectorAll(".usel").forEach(c => c.onchange = () => { const id = c.closest("tr").dataset.uid; c.checked ? selUsers.add(id) : selUsers.delete(id); drawUserTable(); });
+  const all = $("uall"); if(all) all.onchange = () => { sel.forEach(u => all.checked ? selUsers.add(u.id) : selUsers.delete(u.id)); drawUserTable(); };
+  $("usel").textContent = selUsers.size ? `${selUsers.size} valgt` : "";
+  $("view").querySelectorAll("[data-b]").forEach(b => b.disabled = !selUsers.size);
+}
+async function bulkAccess(code){
+  const ids = [...selUsers].filter(id => { const u = userRows.find(x => x.id === id); return u && !u.is_admin; });
+  if(!ids.length) return;
+  const patch = { k1:{ access_knit:true }, c1:{ access_crochet:true }, kc1:{ access_knit:true, access_crochet:true }, k0:{ access_knit:false }, c0:{ access_crochet:false } }[code];
+  const { error } = await sb.from("profiles").update(patch).in("id", ids);
+  if(error) return flash(error.message, "err");
+  flash(`Oppdatert ${ids.length} bruker${ids.length > 1 ? "e" : ""} ✔`); selUsers.clear(); dvUsers();
+}
+
+/* ---------- administrasjon: valglister ---------- */
+async function ensureStats(){
+  const { data } = await sb.from("projects").select("owner_id,craft,status,updated_at,item_type,technique,project_yarns(grams_used)");
+  adminStats = data || [];
+}
+function listCard(cf, i){
+  const rows = choiceRows.filter(r => r.craft === cf.craft && r.field === cf.field);
+  const key = cf.craft + "|" + cf.field;
+  return `<section class="viz"><header><div><h4>${esc(cf.label)}</h4><div class="vsub">Vises som nedtrekksliste i skjemaet</div></div></header>
+    ${rows.length ? `<div class="tw"><table class="dtable"><thead><tr><th>Verdi</th><th class="num">I bruk</th><th class="num">Rekkefølge</th><th></th></tr></thead><tbody>${rows.map((r, j) => {
+      const used = (adminStats || []).filter(p => p.craft === cf.craft && p[cf.field] === r.value).length;
+      return `<tr data-id="${r.id}"><td>${esc(r.value)}</td><td class="num">${used}</td>
+        <td class="num"><button type="button" class="sec" data-mv="-1" data-key="${key}" data-j="${j}" ${j === 0 ? "disabled" : ""} aria-label="Flytt opp">↑</button> <button type="button" class="sec" data-mv="1" data-key="${key}" data-j="${j}" ${j === rows.length - 1 ? "disabled" : ""} aria-label="Flytt ned">↓</button></td>
+        <td class="num"><button type="button" class="danger" data-del="${r.id}" data-used="${used}" aria-label="Fjern ${esc(r.value)}">Fjern</button></td></tr>`; }).join("")}</tbody></table></div>` : `<div class="muted">Ingen valg ennå.</div>`}
+    <div class="row" style="margin-top:12px"><input data-add="${key}" placeholder="Nytt valg" aria-label="Nytt valg"><button type="button" data-addbtn="${key}" style="flex:0 0 auto">Legg til</button></div></section>`;
+}
+async function dvLists(){
+  const v = $("view");
+  v.innerHTML = `<div class="muted">Laster …</div>`;
+  await Promise.all([ensureStats(), loadChoices()]);
+  v.innerHTML = `<p class="muted" style="max-width:760px">Valgene brukerne ser i nedtrekkslistene. «I bruk» viser hvor mange prosjekter som har verdien. Prosjekter beholder verdien sin selv om du fjerner den fra listen.</p><div class="grid2">${CHOICE_FIELDS.map(listCard).join("")}</div>`;
+  v.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => {
+    if(+b.dataset.used && !confirm(`Verdien er i bruk i ${b.dataset.used} prosjekt(er). Prosjektene beholder verdien. Fjerne fra listen?`)) return;
+    const { error } = await sb.from("choice_values").delete().eq("id", b.dataset.del);
+    if(error) return flash(error.message, "err");
+    dvLists();
+  });
+  v.querySelectorAll("[data-mv]").forEach(b => b.onclick = async () => {
+    const [c, f] = b.dataset.key.split("|"), rows = choiceRows.filter(r => r.craft === c && r.field === f), j = +b.dataset.j, k = j + +b.dataset.mv;
+    [rows[j], rows[k]] = [rows[k], rows[j]];
+    for(let i = 0; i < rows.length; i++){
+      if(rows[i].sort_order === (i + 1) * 10) continue;
+      const { error } = await sb.from("choice_values").update({ sort_order:(i + 1) * 10 }).eq("id", rows[i].id);
+      if(error) return flash(error.message, "err");
+    }
+    dvLists();
+  });
+  v.querySelectorAll("[data-addbtn]").forEach(b => b.onclick = async () => {
+    const key = b.dataset.addbtn, inp = v.querySelector(`[data-add="${key}"]`), value = inp.value.trim(); if(!value) return;
+    const [c, f] = key.split("|"), max = Math.max(0, ...choiceRows.filter(r => r.craft === c && r.field === f).map(r => r.sort_order));
+    const { error } = await sb.from("choice_values").insert({ craft:c, field:f, value, sort_order:max + 10 });
+    if(error) return flash(error.code === "23505" ? "Valget finnes allerede." : error.message, "err");
+    dvLists();
+  });
+  v.querySelectorAll("[data-add]").forEach(i => i.onkeydown = e => { if(e.key === "Enter"){ e.preventDefault(); v.querySelector(`[data-addbtn="${i.dataset.add}"]`).click(); } });
+}
+
+/* ---------- administrasjon: oppsett ---------- */
+async function dvSettings(){
+  const v = $("view");
+  v.innerHTML = `<div class="muted">Laster …</div>`;
+  const [st] = await Promise.all([sb.from("app_settings").select("*"), loadUserRows()]);
+  settingsMap = Object.fromEntries((st.data || []).map(r => [r.key, r.value]));
+  const on = k => settingsMap[k] === "true";
+  const pending = userRows.filter(isPending).length;
+  v.innerHTML = `<div class="grid2">
+    <section class="viz"><h4>Nye brukere</h4>
+      <p class="muted">Hvilken tilgang får nye brukere automatisk når de oppretter bruker? Standard er ingen, slik at du godkjenner hver bruker selv.</p>
+      <label class="sw"><input type="checkbox" data-s="default_access_knit" ${on("default_access_knit") ? "checked" : ""}> Strikking</label>
+      <label class="sw"><input type="checkbox" data-s="default_access_crochet" ${on("default_access_crochet") ? "checked" : ""}> Hekling</label>
+      <p class="muted" style="margin-top:12px">Gjelder bare brukere som opprettes etterpå.</p></section>
+    <section class="viz"><h4>Tilgang i dag</h4>
+      <p>${userRows.length} brukere · ${userRows.filter(u => u.is_admin).length} administratorer</p>
+      <p>${userRows.filter(u => u.is_admin || u.access_knit).length} med strikking · ${userRows.filter(u => u.is_admin || u.access_crochet).length} med hekling</p>
+      <p>${pending ? `<span class="badge wait">${pending} venter på tilgang</span>` : "Ingen venter på tilgang."}</p>
+      <button type="button" class="sec" id="gousers">Åpne brukere og tilgang</button></section>
+    <section class="viz"><h4>PowerBI</h4>
+      <p class="muted">Felles rapporter hentes fra visninger i skjemaet <b>rapport</b> med den skrivebeskyttede brukeren <b>powerbi_reader</b>.</p>
+      ${tableView(["Visning", "Innhold"], [["rapport.prosjekter", "Alle prosjekter (handverk-kolonne)"], ["rapport.strikkeprosjekter", "Kun strikking"], ["rapport.heklingsprosjekter", "Kun hekling"], ["rapport.garn", "Garn per prosjekt"]])}</section>
+    <section class="viz"><h4>Visning</h4>
+      <p class="muted">Maskeminner velger PC-visning på brede skjermer (1024 px eller mer) med mus eller styreflate, og mobilvisning ellers. Hver bruker kan overstyre under Profil.</p></section>
+  </div>`;
+  v.querySelectorAll("input[data-s]").forEach(c => c.onchange = async () => {
+    const { error } = await sb.from("app_settings").upsert({ key:c.dataset.s, value:String(c.checked), updated_at:new Date().toISOString() });
+    if(error){ c.checked = !c.checked; return flash(error.message, "err"); }
+    flash("Lagret ✔");
+  });
+  $("gousers").onclick = () => { dtab = "users"; render(); };
 }
 
 boot();
